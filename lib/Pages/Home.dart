@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_progress_button/flutter_progress_button.dart';
+import 'package:http/http.dart' as http;
+import 'dart:convert';
 
 class HomePage extends StatefulWidget {
   @override
@@ -8,6 +10,22 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Map data = {};
+  List widgets = [];
+  
+  @override
+  void initState() {
+    super.initState();
+    loadData();
+  }
+
+  loadData() async {
+    String dataURL = "https://jsonplaceholder.typicode.com/posts";
+    http.Response response = await http.get(dataURL);
+    setState(() {
+      widgets = json.decode(response.body);
+    });
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +45,7 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: EdgeInsets.only(right: 20),
                   child: Text(
-                      "Let's Start it !!",
+                      "${widgets[0]["title"]}",
                       style: TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.bold,

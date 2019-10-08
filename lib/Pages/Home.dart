@@ -10,7 +10,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   Map data = {};
-  List widgets = [];
+  String widgets;
   
   @override
   void initState() {
@@ -19,10 +19,10 @@ class _HomePageState extends State<HomePage> {
   }
 
   loadData() async {
-    String dataURL = "https://jsonplaceholder.typicode.com/posts";
+    String dataURL = "http://52.79.239.248:5001/a";
     http.Response response = await http.get(dataURL);
     setState(() {
-      widgets = json.decode(response.body);
+      widgets = response.body;
     });
   }
 
@@ -45,7 +45,7 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                   padding: EdgeInsets.only(right: 20),
                   child: Text(
-                      "${widgets[0]["title"]}",
+                      "${widgets}",
                       style: TextStyle(
                       fontSize: 35,
                       fontWeight: FontWeight.bold,

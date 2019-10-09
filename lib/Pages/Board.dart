@@ -8,7 +8,7 @@ class BoardPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       theme: ThemeData(
-        appBarTheme: AppBarTheme(color: Colors.green),
+        appBarTheme: AppBarTheme(color: Colors.black),
         primarySwatch: Colors.purple,
       ),
       home: MyHomePage(),
@@ -42,20 +42,35 @@ class _MyHomePageState extends State<MyHomePage> {
   Widget build(BuildContext context) {
     return new Scaffold(
       backgroundColor: Colors.black,
-      body: Center(
-        child:  new Column(
-          mainAxisAlignment: MainAxisAlignment.center,
+      body: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Expanded(
-              child: Image.asset('images/home2.jpg'),
+            Image.asset('images/home2.jpg'),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children:[
+                Padding(
+                  padding: const EdgeInsets.all(5.0),
+                  child: Icon(Icons.people, size: 70, color: Colors.white,),
+                ),
+                Column(
+                  children: [
+                    Text('{ID}s Profile',style: TextStyle(fontSize:30, color: Colors.white, fontFamily: 'Futura')),
+                    Text('Total time:{time}', style: TextStyle(fontSize:20, color: Colors.white, fontFamily: 'Futura')),
+                  ]
+                )
+              ]
             ),
+            SizedBox(height: 50,),
             RaisedButton(
-              child: Text('start study',style: TextStyle(fontSize: 25, color: Colors.white)),
+              
+              child: Text('start study',style: TextStyle(fontSize: 50, color: Colors.white, fontFamily: 'Futura')),
               colorBrightness: Brightness.light,
-            )
+            ),
           ],
         ),
-      ),
+      
       floatingActionButton: new FloatingActionButton(
         child: new Icon(Icons.add),
       ),

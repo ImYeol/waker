@@ -46,7 +46,7 @@ class _MyHomePageState extends State<MyHomePage> {
           mainAxisSize: MainAxisSize.min,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: <Widget>[
-            Image.asset('images/home2.jpg'),
+            Image.asset('images/home2.jpg', height: 400, ),
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children:[
@@ -62,7 +62,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 )
               ]
             ),
-            SizedBox(height: 50,),
+            SizedBox(height: 20,),
             RaisedButton(
               
               child: Text('start study',style: TextStyle(fontSize: 50, color: Colors.white, fontFamily: 'Futura')),

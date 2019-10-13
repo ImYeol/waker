@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:flutter_study_app/Pages/MainScreen.dart';
+import 'package:flutter_study_app/Login/LoginMain.dart';
 import 'package:flutter_study_app/Utils/Const.dart';
 
 void main() => runApp(MyApp());
@@ -31,7 +31,8 @@ bool isDark = false;
       debugShowCheckedModeBanner: false,
       title: Constants.appName,
       theme: isDark ? Constants.darkTheme : Constants.lightTheme,
-      home: MainScreen(),
+      // home: MainScreen(),
+      home: LoginMainPage(),
     );
   }
 }

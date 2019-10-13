@@ -169,7 +169,7 @@ class _SignInPageState extends State<SignInPage>{
                       borderRadius: new BorderRadius.circular(30.0),
                     ),
                     color: Colors.blue,
-                    onPressed: () => {},
+                    onPressed: () => Navigator.pushNamed(context, '/MainScreen'),
                     child: new Container(
                       padding: const EdgeInsets.symmetric(
                         vertical: 20.0,

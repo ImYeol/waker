@@ -19,10 +19,10 @@ class _MyPageListState extends State<PageList> {
   return Scaffold(
       body: PageView(
         children: <Widget>[
-          BoardPage(),
-          HomePage(),
-          SessionPage(),
           FeedPage(),
+          BoardPage(),
+          SessionPage(),
+          HomePage(),
         ],
       ),
     );

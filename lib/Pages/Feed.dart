@@ -1,5 +1,7 @@
+import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study_app/Utils/group_data.dart';
+import 'package:flutter_study_app/Widgets/CustomSearchDelegate.dart';
 import 'package:flutter_study_app/Widgets/FeedUIText.dart';
 import 'package:flutter_study_app/Widgets/slide_item.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
@@ -14,6 +16,7 @@ class _FeedPageState extends State<FeedPage> {
   Map data = {};
   final GlobalKey<AnimatedCircularChartState> _chartKey = new GlobalKey<AnimatedCircularChartState>();
   final _chartSize = const Size(200.0, 200.0);
+  int selectedIdx = -1;
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +37,7 @@ class _FeedPageState extends State<FeedPage> {
         actions: <Widget>[
           IconButton(
             icon: Icon(
-              Icons.keyboard_arrow_up,
+              Icons.search,
               color: Colors.black,
             ),
             onPressed: (){},
@@ -117,33 +120,62 @@ class _FeedPageState extends State<FeedPage> {
   }
 
   Widget getFriendsUIText() {
-      return DefaultFeedUIText(title: "Friends", subTitle: "see more", onPressed: () {
-                    Navigator.of(context).push(
+      return DefaultFeedUIText(title: "Friends", subTitle: "Add", onPressed: () {
+                    /*Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (BuildContext context){
                           return SessionPage();
                         },
                       ),
-                    );
+                    );*/
+                    
+                    //TODO
+                   /* showSearch(
+                    context: context,
+                    delegate: CustomSearchDelegate(),
+                    );*/
                   });
   }
 
   Widget getFriendsUI() {
     // horizontal listView
     return Container(
-              height: MediaQuery.of(context).size.height/6,
+              margin: const EdgeInsets.symmetric(horizontal: 2.0),
+              height: 80,
               child: ListView.builder(
                 primary: false,
                 scrollDirection: Axis.horizontal,
                 shrinkWrap: true,
-                itemCount: 5,
+                itemCount: 10,
                 itemBuilder: (BuildContext context, int index) {
                   //Map cat = myGroups[index];
 
-                  return CircleAvatar(
-                    backgroundImage: AssetImage("images/simple_background.jpeg"),
-                    radius: 50,
-                    );
+                  return GestureDetector(
+                        onLongPress: () {
+                          print("long press ${selectedIdx}");
+                          setState(() {
+                            selectedIdx = index;
+                          });
+                        },
+                        onDoubleTap: (){
+                          print("double tap");
+                          setState(() {
+                            selectedIdx = index;
+                          });
+                        },
+                        child: Container(
+                          margin: const EdgeInsets.symmetric(horizontal: 10.0),
+                          child: Column(
+                            children: <Widget>[
+                              CircleAvatar(
+                              backgroundImage: selectedIdx == index ? AssetImage("images/home.jpg") : AssetImage("images/profile_icon2.png"),
+                              radius: 25,
+                              ),
+                              Text("ID")
+                            ]
+                          )
+                        )
+                  ); 
                 },
               ),
             );
@@ -151,7 +183,7 @@ class _FeedPageState extends State<FeedPage> {
 
 
   Widget getFeedListUIText(){
-     return DefaultFeedUIText(title: "Friends did", subTitle: "see more", onPressed: () {
+     return DefaultFeedUIText(title: "Friends News", subTitle: "see more", onPressed: () {
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (BuildContext context){
@@ -163,40 +195,43 @@ class _FeedPageState extends State<FeedPage> {
   }
 
   Widget getFeedListUI(){
-    return ListView.builder(
-      physics: NeverScrollableScrollPhysics(),
-      primary: false,
-      shrinkWrap: true,
-      itemCount: 3,
-      itemBuilder: (BuildContext context, int index) {
-        Map transaction = myGroups[index];
-        return Card(
-          elevation: 4,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
-          ),
-          child: ListTile(
-            leading: CircleAvatar(
-              backgroundImage: AssetImage(
-                transaction['img'],
-              ),
-              radius: 25,
-            ),
-            title: Text("jong su"),
-            subtitle: Text("started to study"),
-            trailing: Text(
-              "10/25 10:30",
-              style: TextStyle(
-                color: Colors.black,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-          ),
-        );
-      },
+    return Container(
+            height: MediaQuery.of(context).size.height/4,
+    
+            child: ListView.builder(
+                primary: false,
+                shrinkWrap: true,
+                itemCount: 10,
+                itemBuilder: (BuildContext context, int index) {
+                  Map transaction = myGroups[0];
+                  return Card(
+                    elevation: 4,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(10),
+                      ),
+                    ),
+                    child: ListTile(
+                      leading: CircleAvatar(
+                        backgroundImage: AssetImage(
+                          transaction['img'],
+                        ),
+                        radius: 25,
+                      ),
+                      title: Text("jong su"),
+                      subtitle: Text("started to study"),
+                      trailing: Text(
+                        "10/25 10:30",
+                        style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
+                  );
+                },
 
+              )
     );
   }
 }

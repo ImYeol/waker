@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_kakao_login/flutter_kakao_login.dart';
@@ -11,8 +10,7 @@ class SignInPage extends StatefulWidget{
 class _SignInPageState extends State<SignInPage>{
 
   FlutterKakaoLogin kakaoSignIn = new FlutterKakaoLogin();
-  bool isLoggedIn = false;
-  
+
   Widget signInPageState() {
     return new Container(
       height: MediaQuery.of(context).size.height,
@@ -28,7 +26,7 @@ class _SignInPageState extends State<SignInPage>{
       child: new Column(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.all(120.0),
+            padding: EdgeInsets.all(10.0),
             child: Center(
               child: Icon(
                 Icons.import_contacts,
@@ -43,7 +41,7 @@ class _SignInPageState extends State<SignInPage>{
                 child: new Padding(
                   padding: const EdgeInsets.only(left: 40.0),
                   child: new Text(
-                    "EMAIL",
+                    "EMAIL2",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.blue,
@@ -466,32 +464,6 @@ class _SignInPageState extends State<SignInPage>{
     );
   }
 
-  // void initiateFacebookLogin() async {
-  //   var facebookLogin = FacebookLogin();
-  //   var facebookLoginResult =
-  //       await facebookLogin.logInWithReadPermissions(['email']);
-  //    switch (facebookLoginResult.status) {
-  //     case FacebookLoginStatus.error:
-  //       print("Error");
-  //       onLoginStatusChanged(false);
-  //       break;
-  //     case FacebookLoginStatus.cancelledByUser:
-  //       print("CancelledByUser");
-  //       onLoginStatusChanged(false);
-  //       break;
-  //     case FacebookLoginStatus.loggedIn:
-  //       print("LoggedIn");
-  //       onLoginStatusChanged(true);
-  //       break;
-  //   }
-  // }
-
-  // void onLoginStatusChanged(bool isLoggedIn) {
-  //   setState(() {
-  //     this.isLoggedIn = isLoggedIn;
-  //   });
-  // }
-
   void _kakaologin() async{
     final KakaoLoginResult result = await kakaoSignIn.logIn();
     switch (result.status) {
@@ -509,7 +481,7 @@ class _SignInPageState extends State<SignInPage>{
     }
   }
 
-  void _updateMessage(String s){
+  void _updateMessage(String s) {
     print(s);
   }
 
@@ -524,4 +496,5 @@ class _SignInPageState extends State<SignInPage>{
       ),
     );
   }
+
 }

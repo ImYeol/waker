@@ -1,6 +1,6 @@
-
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_kakao_login/flutter_kakao_login.dart';
 
 class SignInPage extends StatefulWidget{
   @override
@@ -9,8 +9,25 @@ class SignInPage extends StatefulWidget{
 
 class _SignInPageState extends State<SignInPage>{
 
-  bool isLoggedIn = false;
-  
+  FlutterKakaoLogin kakaoSignIn = new FlutterKakaoLogin();
+  // Future func() async{
+  //   final KakaoLoginResult result = await kakaoSignIn.logIn();
+  //   switch (result.status) {
+  //     case KakaoLoginStatus.loggedIn:
+  //         _updateMessage('LoggedIn by the user.\n'
+  //                                 '- UserID is ${result.account.userID}\n'
+  //                                 '- UserEmail is ${result.account.userEmail} ');
+  //     break;
+  //     case KakaoLoginStatus.loggedOut:
+  //         _updateMessage('LoggedOut by the user.');
+  //     break;
+  //     case KakaoLoginStatus.error:
+  //         _updateMessage('This is Kakao error message : ${result.errorMessage}');
+  //     break;
+  //   }
+  // }
+
+
   Widget signInPageState() {
     return new Container(
       height: MediaQuery.of(context).size.height,
@@ -26,7 +43,7 @@ class _SignInPageState extends State<SignInPage>{
       child: new Column(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.all(120.0),
+            padding: EdgeInsets.all(10.0),
             child: Center(
               child: Icon(
                 Icons.import_contacts,
@@ -41,7 +58,7 @@ class _SignInPageState extends State<SignInPage>{
                 child: new Padding(
                   padding: const EdgeInsets.only(left: 40.0),
                   child: new Text(
-                    "EMAIL",
+                    "EMAIL2",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.blue,
@@ -365,7 +382,22 @@ class _SignInPageState extends State<SignInPage>{
                                 children: <Widget>[
                                   new Expanded(
                                     child: new FlatButton(
-                                      onPressed: ()=>{},
+                                      onPressed: () async {
+                                        final KakaoLoginResult result = await kakaoSignIn.logIn();
+                                        switch (result.status) {
+                                          case KakaoLoginStatus.loggedIn:
+                                              _kakao_logined('LoggedIn by the user.\n'
+                                                                      '- UserID is ${result.account.userID}\n'
+                                                                      '- UserEmail is ${result.account.userEmail} ');
+                                          break;
+                                          case KakaoLoginStatus.loggedOut:
+                                              _updateMessage('LoggedOut by the user.');
+                                          break;
+                                          case KakaoLoginStatus.error:
+                                              _updateMessage('This is Kakao error message : ${result.errorMessage}');
+                                          break;
+                                        }
+                                      },
                                       padding: EdgeInsets.only(
                                         top: 20.0,
                                         bottom: 20.0,
@@ -381,7 +413,7 @@ class _SignInPageState extends State<SignInPage>{
                                             size: 15.0,
                                           ),
                                           Text(
-                                            "KAKAO",
+                                            "KAKAO1",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 color: Colors.white,
@@ -462,33 +494,6 @@ class _SignInPageState extends State<SignInPage>{
     );
   }
 
-  // void initiateFacebookLogin() async {
-  //   var facebookLogin = FacebookLogin();
-  //   var facebookLoginResult =
-  //       await facebookLogin.logInWithReadPermissions(['email']);
-  //    switch (facebookLoginResult.status) {
-  //     case FacebookLoginStatus.error:
-  //       print("Error");
-  //       onLoginStatusChanged(false);
-  //       break;
-  //     case FacebookLoginStatus.cancelledByUser:
-  //       print("CancelledByUser");
-  //       onLoginStatusChanged(false);
-  //       break;
-  //     case FacebookLoginStatus.loggedIn:
-  //       print("LoggedIn");
-  //       onLoginStatusChanged(true);
-  //       break;
-  //   }
-  // }
-
-  // void onLoginStatusChanged(bool isLoggedIn) {
-  //   setState(() {
-  //     this.isLoggedIn = isLoggedIn;
-  //   });
-  // }
-
-
   @override 
   Widget build(BuildContext context){
     return Scaffold(
@@ -499,5 +504,13 @@ class _SignInPageState extends State<SignInPage>{
         ),
       ),
     );
+  }
+
+  void _kakao_logined(String s){
+    print(s);
+    Navigator.pushNamed(context, '/MainScreen');
+  }
+  void _updateMessage(String s) {
+    print(s);
   }
 }

@@ -1,6 +1,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_kakao_login/flutter_kakao_login.dart';
 
 class SignInPage extends StatefulWidget{
   @override
@@ -9,6 +10,7 @@ class SignInPage extends StatefulWidget{
 
 class _SignInPageState extends State<SignInPage>{
 
+  FlutterKakaoLogin kakaoSignIn = new FlutterKakaoLogin();
   bool isLoggedIn = false;
   
   Widget signInPageState() {
@@ -365,7 +367,9 @@ class _SignInPageState extends State<SignInPage>{
                                 children: <Widget>[
                                   new Expanded(
                                     child: new FlatButton(
-                                      onPressed: ()=>{},
+                                      onPressed: ()=>{
+                                        _kakaologin(),
+                                      },
                                       padding: EdgeInsets.only(
                                         top: 20.0,
                                         bottom: 20.0,
@@ -488,6 +492,26 @@ class _SignInPageState extends State<SignInPage>{
   //   });
   // }
 
+  void _kakaologin() async{
+    final KakaoLoginResult result = await kakaoSignIn.logIn();
+    switch (result.status) {
+        case KakaoLoginStatus.loggedIn:
+            _updateMessage('LoggedIn by the user.\n'
+                          '- UserID is ${result.account.userID}\n'
+                          '- UserEmail is ${result.account.userEmail} ');
+        break;
+        case KakaoLoginStatus.loggedOut:
+            _updateMessage('LoggedOut by the user.');
+        break;
+        case KakaoLoginStatus.error:
+            _updateMessage('This is Kakao error message : ${result.errorMessage}');
+        break;
+    }
+  }
+
+  void _updateMessage(String s){
+    print(s);
+  }
 
   @override 
   Widget build(BuildContext context){

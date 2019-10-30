@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_kakao_login/flutter_kakao_login.dart';
+import 'package:flutter_study_app/Auth/KakaoAuth.dart';
 
 class SignInPage extends StatefulWidget{
   @override
@@ -9,7 +10,7 @@ class SignInPage extends StatefulWidget{
 
 class _SignInPageState extends State<SignInPage>{
 
-  FlutterKakaoLogin kakaoSignIn = new FlutterKakaoLogin();
+  KakaoAuth mkakaoauth = new KakaoAuth();
 
   Widget signInPageState() {
     return new Container(
@@ -84,7 +85,7 @@ class _SignInPageState extends State<SignInPage>{
             ),
           ),
           Divider(
-            height: 24.0,
+            // height: 24.0,
           ),
           new Row(
             children: <Widget>[
@@ -366,7 +367,7 @@ class _SignInPageState extends State<SignInPage>{
                                   new Expanded(
                                     child: new FlatButton(
                                       onPressed: ()=>{
-                                        _kakaologin(),
+                                        mkakaoauth.login(),
                                       },
                                       padding: EdgeInsets.only(
                                         top: 20.0,
@@ -462,27 +463,6 @@ class _SignInPageState extends State<SignInPage>{
         ],
       ),
     );
-  }
-
-  void _kakaologin() async{
-    final KakaoLoginResult result = await kakaoSignIn.logIn();
-    switch (result.status) {
-        case KakaoLoginStatus.loggedIn:
-            _updateMessage('LoggedIn by the user.\n'
-                          '- UserID is ${result.account.userID}\n'
-                          '- UserEmail is ${result.account.userEmail} ');
-        break;
-        case KakaoLoginStatus.loggedOut:
-            _updateMessage('LoggedOut by the user.');
-        break;
-        case KakaoLoginStatus.error:
-            _updateMessage('This is Kakao error message : ${result.errorMessage}');
-        break;
-    }
-  }
-
-  void _updateMessage(String s) {
-    print(s);
   }
 
   @override 

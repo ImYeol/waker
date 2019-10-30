@@ -22,7 +22,7 @@ class _LoginPageState extends State<LoginPage>{
       child: new Column(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.only(top: 250.0),
+            padding: EdgeInsets.only(top:100.0),
             child: Center(
               child: Icon(Icons.import_contacts, color: Colors.white, size: 40.0,),
             ),

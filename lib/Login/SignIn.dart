@@ -385,7 +385,7 @@ class _SignInPageState extends State<SignInPage>{
                                             size: 15.0,
                                           ),
                                           Text(
-                                            "KAKAO",
+                                            "KAKAO1",
                                             textAlign: TextAlign.center,
                                             style: TextStyle(
                                                 color: Colors.white,

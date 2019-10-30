@@ -10,23 +10,6 @@ class SignInPage extends StatefulWidget{
 class _SignInPageState extends State<SignInPage>{
 
   FlutterKakaoLogin kakaoSignIn = new FlutterKakaoLogin();
-  // Future func() async{
-  //   final KakaoLoginResult result = await kakaoSignIn.logIn();
-  //   switch (result.status) {
-  //     case KakaoLoginStatus.loggedIn:
-  //         _updateMessage('LoggedIn by the user.\n'
-  //                                 '- UserID is ${result.account.userID}\n'
-  //                                 '- UserEmail is ${result.account.userEmail} ');
-  //     break;
-  //     case KakaoLoginStatus.loggedOut:
-  //         _updateMessage('LoggedOut by the user.');
-  //     break;
-  //     case KakaoLoginStatus.error:
-  //         _updateMessage('This is Kakao error message : ${result.errorMessage}');
-  //     break;
-  //   }
-  // }
-
 
   Widget signInPageState() {
     return new Container(
@@ -382,21 +365,8 @@ class _SignInPageState extends State<SignInPage>{
                                 children: <Widget>[
                                   new Expanded(
                                     child: new FlatButton(
-                                      onPressed: () async {
-                                        final KakaoLoginResult result = await kakaoSignIn.logIn();
-                                        switch (result.status) {
-                                          case KakaoLoginStatus.loggedIn:
-                                              _kakao_logined('LoggedIn by the user.\n'
-                                                                      '- UserID is ${result.account.userID}\n'
-                                                                      '- UserEmail is ${result.account.userEmail} ');
-                                          break;
-                                          case KakaoLoginStatus.loggedOut:
-                                              _updateMessage('LoggedOut by the user.');
-                                          break;
-                                          case KakaoLoginStatus.error:
-                                              _updateMessage('This is Kakao error message : ${result.errorMessage}');
-                                          break;
-                                        }
+                                      onPressed: ()=>{
+                                        _kakaologin(),
                                       },
                                       padding: EdgeInsets.only(
                                         top: 20.0,
@@ -494,6 +464,27 @@ class _SignInPageState extends State<SignInPage>{
     );
   }
 
+  void _kakaologin() async{
+    final KakaoLoginResult result = await kakaoSignIn.logIn();
+    switch (result.status) {
+        case KakaoLoginStatus.loggedIn:
+            _updateMessage('LoggedIn by the user.\n'
+                          '- UserID is ${result.account.userID}\n'
+                          '- UserEmail is ${result.account.userEmail} ');
+        break;
+        case KakaoLoginStatus.loggedOut:
+            _updateMessage('LoggedOut by the user.');
+        break;
+        case KakaoLoginStatus.error:
+            _updateMessage('This is Kakao error message : ${result.errorMessage}');
+        break;
+    }
+  }
+  
+  void _updateMessage(String s) {
+    print(s);
+  }
+
   @override 
   Widget build(BuildContext context){
     return Scaffold(
@@ -506,11 +497,4 @@ class _SignInPageState extends State<SignInPage>{
     );
   }
 
-  void _kakao_logined(String s){
-    print(s);
-    Navigator.pushNamed(context, '/MainScreen');
-  }
-  void _updateMessage(String s) {
-    print(s);
-  }
 }

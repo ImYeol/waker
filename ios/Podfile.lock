@@ -1,16 +1,41 @@
 PODS:
   - Flutter (1.0.0)
+  - flutter_kakao_login (0.0.8):
+    - Flutter
+    - KakaoOpenSDK (~> 1.17.2)
+  - KakaoOpenSDK (1.17.2):
+    - KakaoOpenSDK/KakaoCommon (= 1.17.2)
+    - KakaoOpenSDK/KakaoLink (= 1.17.2)
+    - KakaoOpenSDK/KakaoMessageTemplate (= 1.17.2)
+    - KakaoOpenSDK/KakaoNavi (= 1.17.2)
+    - KakaoOpenSDK/KakaoOpenSDK (= 1.17.2)
+  - KakaoOpenSDK/KakaoCommon (1.17.2)
+  - KakaoOpenSDK/KakaoLink (1.17.2):
+    - KakaoOpenSDK/KakaoCommon
+  - KakaoOpenSDK/KakaoMessageTemplate (1.17.2)
+  - KakaoOpenSDK/KakaoNavi (1.17.2):
+    - KakaoOpenSDK/KakaoCommon
+  - KakaoOpenSDK/KakaoOpenSDK (1.17.2)
 
 DEPENDENCIES:
   - Flutter (from `.symlinks/flutter/ios`)
+  - flutter_kakao_login (from `.symlinks/plugins/flutter_kakao_login/ios`)
+
+SPEC REPOS:
+  trunk:
+    - KakaoOpenSDK
 
 EXTERNAL SOURCES:
   Flutter:
     :path: ".symlinks/flutter/ios"
+  flutter_kakao_login:
+    :path: ".symlinks/plugins/flutter_kakao_login/ios"
 
 SPEC CHECKSUMS:
   Flutter: 0e3d915762c693b495b44d77113d4970485de6ec
+  flutter_kakao_login: 792d15a6f07557cb703f759ffa85ce0206b1fe84
+  KakaoOpenSDK: 1fc43f9025e30a7c1f7c5342bf51744c6c93a500
 
-PODFILE CHECKSUM: 10ae9c18d12c9ffc2275c9a159a3b1e281990db0
+PODFILE CHECKSUM: 2ef0a40072d836b2e62fb7fcb125a5e514afe953
 
-COCOAPODS: 1.8.3
+COCOAPODS: 1.8.4

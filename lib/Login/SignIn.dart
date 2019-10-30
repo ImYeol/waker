@@ -480,7 +480,7 @@ class _SignInPageState extends State<SignInPage>{
         break;
     }
   }
-  
+
   void _updateMessage(String s) {
     print(s);
   }

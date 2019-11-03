@@ -28,6 +28,10 @@ dependencies:
   http: ^0.11.3+16
   flutter_circular_chart: ^0.1.0
   circular_profile_avatar: ^1.0.2
+  rxdart: ^0.22.4
+  equatable: ^0.6.0
+  bloc: ^1.0.0
+  flutter_bloc: ^1.0.0
 dev_dependencies:
   flutter_test:
     sdk: flutter

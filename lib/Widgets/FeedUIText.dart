@@ -20,6 +20,7 @@ class DefaultFeedUIText extends StatefulWidget {
 }
 
 class _DefaultFeedUITextState extends State<DefaultFeedUIText> {
+
   @override
   Widget build(BuildContext context) {
     return Row(

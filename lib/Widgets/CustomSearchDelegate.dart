@@ -1,22 +1,17 @@
-/*import 'package:flutter/material.dart';
+import 'package:flutter/material.dart';
 
-class CustomSearchDelegate extends SearchDelegate {
-  @override
-  List<Widget> buildActions(BuildContext context) {
-    return [
-      IconButton(
-        icon: Icon(Icons.clear),
-        onPressed: () {
-          query = '';
-        },
-      ),
-    ];
-  }
+class CustomSearchDelegate extends SearchDelegate<int> {
+  final List<int> _data = List<int>.generate(100001, (int i) => i).reversed.toList();
+  final List<int> _history = <int>[42607, 85604, 66374, 44, 174];
 
   @override
   Widget buildLeading(BuildContext context) {
     return IconButton(
-      icon: Icon(Icons.arrow_back),
+      tooltip: 'Back',
+      icon: AnimatedIcon(
+        icon: AnimatedIcons.menu_arrow,
+        progress: transitionAnimation,
+      ),
       onPressed: () {
         close(context, null);
       },
@@ -24,96 +19,144 @@ class CustomSearchDelegate extends SearchDelegate {
   }
 
   @override
+  Widget buildSuggestions(BuildContext context) {
+
+    final Iterable<int> suggestions = query.isEmpty
+        ? _history
+        : _data.where((int i) => '$i'.startsWith(query));
+
+    return _SuggestionList(
+      query: query,
+      suggestions: suggestions.map<String>((int i) => '$i').toList(),
+      onSelected: (String suggestion) {
+        query = suggestion;
+        showResults(context);
+      },
+    );
+  }
+
+  @override
   Widget buildResults(BuildContext context) {
-    if (query.length < 3) {
-      return Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: <Widget>[
-          Center(
-            child: Text(
-              "Search term must be longer than two letters.",
-            ),
-          )
-        ],
+    final int searched = int.tryParse(query);
+    if (searched == null || !_data.contains(searched)) {
+      return Center(
+        child: Text(
+          '"$query"\n is not a valid integer between 0 and 100,000.\nTry again.',
+          textAlign: TextAlign.center,
+        ),
       );
     }
-    
-    //Add the search term to the searchBloc. 
-    //The Bloc will then handle the searching and add the results to the searchResults stream.
-    //This is the equivalent of submitting the search term to whatever search service you are using
-    InheritedBlocs.of(context)
-        .searchBloc
-        .searchTerm
-        .add(query);
 
-    return Column(
+    return ListView(
       children: <Widget>[
-        //Build the results based on the searchResults stream in the searchBloc
-        StreamBuilder(
-          stream: InheritedBlocs.of(context).searchBloc.searchResults,
-          builder: (context, AsyncSnapshot<List<Result>> snapshot) {
-            if (!snapshot.hasData) {
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: <Widget>[
-                  Center(child: CircularProgressIndicator()),
-                ],
-              );
-            } else if (snapshot.data.length == 0) {
-              return Column(
-                children: <Widget>[
-                  Text(
-                    "No Results Found.",
-                  ),
-                ],
-              );
-            } else {
-              var results = snapshot.data;
-              return ListView.builder(
-                itemCount: results.length,
-                itemBuilder: (context, index) {
-                  var result = results[index];
-                  return ListTile(
-                    title: Text(result.title),
-                  );
-                },
-              );
-            }
-          },
+        _ResultCard(
+          title: 'This integer',
+          integer: searched,
+          searchDelegate: this,
+        ),
+        _ResultCard(
+          title: 'Next integer',
+          integer: searched + 1,
+          searchDelegate: this,
+        ),
+        _ResultCard(
+          title: 'Previous integer',
+          integer: searched - 1,
+          searchDelegate: this,
         ),
       ],
     );
   }
 
   @override
-  Widget buildSuggestions(BuildContext context) {
-    // This method is called everytime the search term changes. 
-    // If you want to add search suggestions as the user enters their search term, this is the place to do that.
-    return Column();
+  List<Widget> buildActions(BuildContext context) {
+    return <Widget>[
+      if (query.isEmpty)
+        IconButton(
+          tooltip: 'Voice Search',
+          icon: const Icon(Icons.mic),
+          onPressed: () {
+            query = 'TODO: implement voice input';
+          },
+        )
+      else
+        IconButton(
+          tooltip: 'Clear',
+          icon: const Icon(Icons.clear),
+          onPressed: () {
+            query = '';
+            showSuggestions(context);
+          },
+        ),
+    ];
   }
 }
 
-class InheritedBlocs extends InheritedWidget {
-  InheritedBlocs(
-      {Key key,
-      this.searchBloc,
-      this.child})
-      : super(key: key, child: child);
+class _ResultCard extends StatelessWidget {
+  const _ResultCard({this.integer, this.title, this.searchDelegate});
 
-  final Widget child;
-  final SearchBloc searchBloc;
-
-  static InheritedBlocs of(BuildContext context) {
-    return (context.inheritFromWidgetOfExactType(InheritedBlocs)
-        as InheritedBlocs);
-  }
+  final int integer;
+  final String title;
+  final SearchDelegate<int> searchDelegate;
 
   @override
-  bool updateShouldNotify(InheritedBlocs oldWidget) {
-    return true;
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return GestureDetector(
+      onTap: () {
+        searchDelegate.close(context, integer);
+      },
+      child: Card(
+        child: Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            children: <Widget>[
+              Text(title),
+              Text(
+                '$integer',
+                style: theme.textTheme.headline.copyWith(fontSize: 72.0),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
   }
 }
 
+class _SuggestionList extends StatelessWidget {
+  const _SuggestionList({this.suggestions, this.query, this.onSelected});
 
-class searchBloc extends Bloc<*/
+  final List<String> suggestions;
+  final String query;
+  final ValueChanged<String> onSelected;
+
+  @override
+  Widget build(BuildContext context) {
+    final ThemeData theme = Theme.of(context);
+    return ListView.builder(
+      itemCount: suggestions.length,
+      itemBuilder: (BuildContext context, int i) {
+        final String suggestion = suggestions[i];
+        return ListTile(
+          leading: query.isEmpty ? const Icon(Icons.history) : const Icon(null),
+          title: RichText(
+            text: TextSpan(
+              text: suggestion.substring(0, query.length),
+              style: theme.textTheme.subhead.copyWith(fontWeight: FontWeight.bold),
+              children: <TextSpan>[
+                TextSpan(
+                  text: suggestion.substring(query.length),
+                  style: theme.textTheme.subhead,
+                ),
+              ],
+            ),
+          ),
+          onTap: () {
+            onSelected(suggestion);
+          },
+        );
+      },
+    );
+  }
+}

@@ -1,8 +1,10 @@
 import 'package:circular_profile_avatar/circular_profile_avatar.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_study_app/Blocs/SearchFriendsBloc.dart';
 import 'package:flutter_study_app/Utils/group_data.dart';
 import 'package:flutter_study_app/Widgets/CustomSearchDelegate.dart';
 import 'package:flutter_study_app/Widgets/FeedUIText.dart';
+import 'package:flutter_study_app/Widgets/SearchFriendDelegate.dart';
 import 'package:flutter_study_app/Widgets/slide_item.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'Sessions.dart';
@@ -18,6 +20,12 @@ class _FeedPageState extends State<FeedPage> {
   final _chartSize = const Size(200.0, 200.0);
   int selectedIdx = -1;
 
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    bloc.dispose();
+    super.dispose();
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -128,12 +136,12 @@ class _FeedPageState extends State<FeedPage> {
                         },
                       ),
                     );*/
-                    
+                   // bloc.init();
                     //TODO
-                   /* showSearch(
+                    showSearch(
                     context: context,
-                    delegate: CustomSearchDelegate(),
-                    );*/
+                    delegate: SearchFriendDelegate(),
+                    );
                   });
   }
 

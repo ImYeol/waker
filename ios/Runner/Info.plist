@@ -49,7 +49,7 @@
 			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>kakao0123456789abcdefghijklmn</string>
+				<string>kakaoa6387b7811a594082baa53208343832d</string>
 			</array>
 		</dict>
 	</array>
@@ -72,6 +72,7 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+
 	<key>KAKAO_APP_KEY</key>
 	<string>a6387b7811a594082baa53208343832d</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -95,5 +96,28 @@
 			</array>
 		</dict>
 	</array>
+	
+	<!-- Facebook Login configuration -->
+    <key>CFBundleURLTypes</key>
+    <array>
+        <dict>
+            <key>CFBundleURLSchemes</key>
+            <array>
+                <string>fb2578019708953479</string>
+            </array>
+        </dict>
+    </array>
+    <key>FacebookAppID</key>
+    <string>2578019708953479</string>
+    <key>FacebookDisplayName</key>
+    <string>Login test</string>
+    
+    <key>LSApplicationQueriesSchemes</key>
+    <array>
+        <string>fbapi</string>
+        <string>fb-messenger-share-api</string>
+        <string>fbauth2</string>
+        <string>fbshareextension</string>
+    </array>
 </dict>
 </plist>

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
-import 'package:flutter_kakao_login/flutter_kakao_login.dart';
 import 'package:flutter_study_app/Auth/KakaoAuth.dart';
+import 'package:flutter_study_app/Auth/FacebookAuth.dart';
 
 class SignInPage extends StatefulWidget{
   @override
@@ -11,6 +11,7 @@ class SignInPage extends StatefulWidget{
 class _SignInPageState extends State<SignInPage>{
 
   KakaoAuth mkakaoauth = new KakaoAuth();
+  FacebookAuth mfacebookauth = new FacebookAuth();
 
   Widget signInPageState() {
     return new Container(
@@ -249,7 +250,9 @@ class _SignInPageState extends State<SignInPage>{
                                 children: <Widget>[
                                   new Expanded(
                                     child: new FlatButton(
-                                      onPressed: ()=>{},
+                                      onPressed: ()=>{
+                                        mfacebookauth.login()
+                                      },
                                       padding: EdgeInsets.only(
                                         top: 20.0,
                                         bottom: 20.0,

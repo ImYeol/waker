@@ -2,11 +2,8 @@
 <resources>
     <string name="app_name">test1</string>
 
-    <!-- Replace "000000000000" with your Facebook App ID here. -->
-   
-    <!--
-      Replace "000000000000" with your Facebook App ID here.
-      **NOTE**: The scheme needs to start with `fb` and then your ID.
-    -->
+    <string name="kakao_app_key">a6387b7811a594082baa53208343832d</string>
+    <string name="facebook_app_id">2578019708953479</string> 
+    <string name="fb_login_protocol_scheme">fb2578019708953479</string>
    
 </resources>

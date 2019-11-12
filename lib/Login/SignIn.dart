@@ -1,7 +1,14 @@
+import 'dart:developer';
+import 'dart:io';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_kakao_login/flutter_kakao_login.dart';
+import 'package:flutter_study_app/Auth/FacebookAuth.dart';
 import 'package:flutter_study_app/Auth/KakaoAuth.dart';
+import 'package:flutter_study_app/Utils/AuthConfig.dart';
+import 'package:flutter_study_app/restapi/LoginRestapi.dart';
 
 class SignInPage extends StatefulWidget{
   @override
@@ -11,10 +18,15 @@ class SignInPage extends StatefulWidget{
 class _SignInPageState extends State<SignInPage>{
 
   KakaoAuth mkakaoauth = new KakaoAuth();
+  LoginRestapi mloginrestapi = new LoginRestapi();
+  FacebookAuth mfacebookauth = new FacebookAuth();
+
+  String accountid;
+  String accountemail;
+
 
   Widget signInPageState() {
     return new Container(
-      height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
         color: Colors.white,
         image: DecorationImage(
@@ -27,7 +39,7 @@ class _SignInPageState extends State<SignInPage>{
       child: new Column(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.all(10.0),
+            padding: EdgeInsets.all(50.0),
             child: Center(
               child: Icon(
                 Icons.import_contacts,
@@ -42,7 +54,7 @@ class _SignInPageState extends State<SignInPage>{
                 child: new Padding(
                   padding: const EdgeInsets.only(left: 40.0),
                   child: new Text(
-                    "EMAIL2",
+                    "EMAIL",
                     style: TextStyle(
                       fontWeight: FontWeight.bold,
                       color: Colors.blue,
@@ -76,7 +88,7 @@ class _SignInPageState extends State<SignInPage>{
                     textAlign: TextAlign.left,
                     decoration: InputDecoration(
                       border: InputBorder.none,
-                      hintText: 'samarthagarwal@live.com',
+                      hintText: 'gwanjong@gmail.com',
                       hintStyle: TextStyle(color: Colors.grey),
                     ),
                   ),
@@ -85,7 +97,7 @@ class _SignInPageState extends State<SignInPage>{
             ),
           ),
           Divider(
-            // height: 24.0,
+            height: 24.0,
           ),
           new Row(
             children: <Widget>[
@@ -224,6 +236,7 @@ class _SignInPageState extends State<SignInPage>{
               ],
             ),
           ),
+
           new Container(
             width: MediaQuery.of(context).size.width,
             margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
@@ -237,107 +250,73 @@ class _SignInPageState extends State<SignInPage>{
                       children: <Widget>[
                         new Expanded(
                           child: new FlatButton(
-                            shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0),
+                            onPressed: ()=> mfacebookauth.login().then((facebookloginstate){
+                              switch(facebookloginstate){
+                                case AuthConfig.loggedIn:
+
+                                  // mloginrestapi.
+                                  Navigator.pushNamed(context, '/MainScreen');
+                                  break;
+                                case AuthConfig.error:
+                                  break;
+                              }
+                            }),
+                            padding: EdgeInsets.only(
+                              top: 20.0,
+                              bottom: 20.0,
                             ),
-                            color: Color(0Xff3B5998),
-                            //onPressed: () => initiateFacebookLogin(),
-                            onPressed: () => {},
-                            child: new Container(
-                              child: new Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  new Expanded(
-                                    child: new FlatButton(
-                                      onPressed: ()=>{},
-                                      padding: EdgeInsets.only(
-                                        top: 20.0,
-                                        bottom: 20.0,
-                                      ),
-                                      child: new Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: <Widget>[
-                                          Icon(
-                                            const IconData(0xea90,
-                                                fontFamily: 'icomoon'),
-                                            color: Colors.white,
-                                            size: 15.0,
-                                          ),
-                                          Text(
-                                            "FACEBOOK",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+                            
+                            child: Image.asset('images/facebook_account_login.png'),
                           ),
                         ),
                       ],
                     ),
                   ),
                 ),
+              ],
+            ),
+          ),
+
+          new Container(
+            width: MediaQuery.of(context).size.width,
+            margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 0.0),
+            child: new Row(
+              children: <Widget>[
                 new Expanded(
                   child: new Container(
-                    margin: EdgeInsets.only(left: 8.0),
+                    margin: EdgeInsets.only(right: 8.0),
                     alignment: Alignment.center,
                     child: new Row(
                       children: <Widget>[
                         new Expanded(
                           child: new FlatButton(
-                            shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0),
+                            onPressed: ()=> mkakaoauth.login().then((kakaologinstate){
+                              switch(kakaologinstate){
+                                case AuthConfig.loggedIn:
+                                  accountid = mkakaoauth.GetAccountID();
+                                  accountemail = mkakaoauth.GetAccountEMAIL();
+                                  
+                                  mloginrestapi.KakaoLoginPost(accountid, accountemail);
+
+                                  Navigator.pushNamed(context, '/MainScreen');
+                                  break;
+                                case AuthConfig.error:
+                                  break;
+                              }
+                            }),
+                            padding: EdgeInsets.only(
+                              top: 5.0,
+                              bottom: 5.0,
                             ),
-                            color: Color(0Xffdb3236),
-                            onPressed: () => Navigator.pushNamed(context, '/SignUp'),
-                            child: new Container(
-                              child: new Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  new Expanded(
-                                    child: new FlatButton(
-                                      onPressed: ()=> Navigator.pushNamed(context, '/SignUp'),
-                                      padding: EdgeInsets.only(
-                                        top: 20.0,
-                                        bottom: 20.0,
-                                      ),
-                                      child: new Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: <Widget>[
-                                          Icon(
-                                            const IconData(0xea88,
-                                                fontFamily: 'icomoon'),
-                                            color: Colors.white,
-                                            size: 15.0,
-                                          ),
-                                          Text(
-                                            "GOOGLE",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+
+                            child: Image.asset('images/kakao_account_login_btn_medium_wide.png'),
+                            
                           ),
                         ),
                       ],
                     ),
                   ),
-                ),                
+                ),
               ],
             ),
           ),
@@ -355,102 +334,27 @@ class _SignInPageState extends State<SignInPage>{
                       children: <Widget>[
                         new Expanded(
                           child: new FlatButton(
-                            shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0),
+                            onPressed: ()=> mkakaoauth.login().then((kakaologinstate){
+                              switch(kakaologinstate){
+                                case AuthConfig.loggedIn:
+                                  accountid = mkakaoauth.GetAccountID();
+                                  accountemail = mkakaoauth.GetAccountEMAIL();
+                                  
+                                  mloginrestapi.KakaoLoginPost(accountid, accountemail);
+
+                                  Navigator.pushNamed(context, '/MainScreen');
+                                  break;
+                                case AuthConfig.error:
+                                  break;
+                              }
+                            }),
+                            padding: EdgeInsets.only(
+                              top: 5.0,
+                              bottom: 5.0,
                             ),
-                            color: Colors.yellow[600],
-                            onPressed: () => {},
-                            child: new Container(
-                              child: new Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  new Expanded(
-                                    child: new FlatButton(
-                                      onPressed: ()=>{
-                                        mkakaoauth.login(),
-                                      },
-                                      padding: EdgeInsets.only(
-                                        top: 20.0,
-                                        bottom: 20.0,
-                                      ),
-                                      child: new Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: <Widget>[
-                                          Icon(
-                                            const IconData(0xea90,
-                                                fontFamily: 'icomoon'),
-                                            color: Colors.white,
-                                            size: 15.0,
-                                          ),
-                                          Text(
-                                            "KAKAO1",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                new Expanded(
-                  child: new Container(
-                    margin: EdgeInsets.only(left: 8.0),
-                    alignment: Alignment.center,
-                    child: new Row(
-                      children: <Widget>[
-                        new Expanded(
-                          child: new FlatButton(
-                            shape: new RoundedRectangleBorder(
-                              borderRadius: new BorderRadius.circular(30.0),
-                            ),
-                            color: Color(0Xffdb3236),
-                            onPressed: () => {},
-                            child: new Container(
-                              child: new Row(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: <Widget>[
-                                  new Expanded(
-                                    child: new FlatButton(
-                                      onPressed: ()=>{},
-                                      padding: EdgeInsets.only(
-                                        top: 20.0,
-                                        bottom: 20.0,
-                                      ),
-                                      child: new Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceEvenly,
-                                        children: <Widget>[
-                                          Icon(
-                                            const IconData(0xea88,
-                                                fontFamily: 'icomoon'),
-                                            color: Colors.white,
-                                            size: 15.0,
-                                          ),
-                                          Text(
-                                            "ETC",
-                                            textAlign: TextAlign.center,
-                                            style: TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold),
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
+
+                            child: Image.asset('images/kakao_account_login_btn_medium_narrow_EN.png'),
+                            
                           ),
                         ),
                       ],
@@ -459,7 +363,10 @@ class _SignInPageState extends State<SignInPage>{
                 ),
               ],
             ),
-          )
+          ),
+
+          Divider(height: 20.0,),
+          
         ],
       ),
     );
@@ -468,11 +375,13 @@ class _SignInPageState extends State<SignInPage>{
   @override 
   Widget build(BuildContext context){
     return Scaffold(
-      body: new Container(
-        height:MediaQuery.of(context).size.height,
-        child: PageView(
-          children: <Widget>[signInPageState()] ,
-        ),
+      body: new ListView(
+        children: <Widget>[
+          SizedBox(
+            height: MediaQuery.of(context).padding.top,
+          ),
+          signInPageState(),
+        ],
       ),
     );
   }

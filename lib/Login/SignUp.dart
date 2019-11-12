@@ -9,7 +9,6 @@ class _SignUpPageState extends State<SignUpPage>{
 
   Widget signPageState() {
     return new Container(
-      height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
         color: Colors.white,
         image: DecorationImage(
@@ -22,7 +21,7 @@ class _SignUpPageState extends State<SignUpPage>{
       child: new Column(
         children: <Widget>[
           Container(
-            padding: EdgeInsets.all(100.0),
+            padding: EdgeInsets.all(50.0),
             child: Center(
               child: Icon(
                 Icons.import_contacts,
@@ -50,10 +49,10 @@ class _SignUpPageState extends State<SignUpPage>{
           ),
           new Container(
             width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.only(left: 40.0, right: 40.0, top: 10.0),
+            margin: const EdgeInsets.only(left: 40.0, right: 40.0, top: 5.0),
             alignment: Alignment.center,
             child: new TextField(
-              decoration: InputDecoration(border: InputBorder.none, hintText: 'asd'),
+              decoration: InputDecoration(border: InputBorder.none, hintText: 'gwanjong@gmail.com'),
             ),
           ),
           new Container(
@@ -61,12 +60,12 @@ class _SignUpPageState extends State<SignUpPage>{
             margin: const EdgeInsets.only(left: 40.0, right: 40.0,),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.blue, width: 0.5, style: BorderStyle.solid),)
+              border: Border(bottom: BorderSide(color: Colors.blue, width: 0.8, style: BorderStyle.solid),)
             ),
             padding: const EdgeInsets.only(left:0.0, right:10.0),
           ),
 
-          Divider( height: 30.0,),
+          Divider( height: 20.0,),
 
           new Row(
             children: <Widget>[
@@ -83,7 +82,7 @@ class _SignUpPageState extends State<SignUpPage>{
           ),
           new Container(
             width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.only(left: 40.0, right: 40.0, top: 10.0),
+            margin: const EdgeInsets.only(left: 40.0, right: 40.0, top: 5.0),
             alignment: Alignment.center,
             child: new TextField(
               decoration: InputDecoration(border: InputBorder.none, hintText: '**********'),
@@ -94,12 +93,12 @@ class _SignUpPageState extends State<SignUpPage>{
             margin: const EdgeInsets.only(left: 40.0, right: 40.0,),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.blue, width: 0.5, style: BorderStyle.solid),)
+              border: Border(bottom: BorderSide(color: Colors.blue, width: 0.8, style: BorderStyle.solid),)
             ),
             padding: const EdgeInsets.only(left:0.0, right:10.0),
           ),
 
-          Divider( height: 30.0,),
+          Divider( height: 20.0,),
 
           new Row(
             children: <Widget>[
@@ -116,7 +115,7 @@ class _SignUpPageState extends State<SignUpPage>{
           ),
           new Container(
             width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.only(left: 40.0, right: 40.0, top: 10.0),
+            margin: const EdgeInsets.only(left: 40.0, right: 40.0, top: 5.0),
             alignment: Alignment.center,
             child: new TextField(
               decoration: InputDecoration(border: InputBorder.none, hintText: '**********'),
@@ -127,7 +126,7 @@ class _SignUpPageState extends State<SignUpPage>{
             margin: const EdgeInsets.only(left: 40.0, right: 40.0,),
             alignment: Alignment.center,
             decoration: BoxDecoration(
-              border: Border(bottom: BorderSide(color: Colors.blue, width: 0.5, style: BorderStyle.solid),)
+              border: Border(bottom: BorderSide(color: Colors.blue, width: 0.8, style: BorderStyle.solid),)
             ),
             padding: const EdgeInsets.only(left:0.0, right:10.0),
           ),
@@ -155,11 +154,11 @@ class _SignUpPageState extends State<SignUpPage>{
             ],
           ),
 
-          Divider(height: 30.0,),
+          Divider(height: 20.0,),
 
           new Container(
             width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 50.0),
+            margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 40.0),
             alignment: Alignment.center,
             child: new Row(
               children: <Widget>[
@@ -196,6 +195,9 @@ class _SignUpPageState extends State<SignUpPage>{
               ]
             )
           ),
+
+          Divider(height: 20.0,),
+          
         ]
       )
     );
@@ -204,11 +206,13 @@ class _SignUpPageState extends State<SignUpPage>{
   @override 
   Widget build(BuildContext context){
     return Scaffold(
-      body: new Container(
-        height:MediaQuery.of(context).size.height,
-        child: PageView(
-          children: <Widget>[signPageState()] ,
-        ),
+      body: new ListView(
+        children: <Widget>[
+          SizedBox(
+            height: MediaQuery.of(context).padding.top,
+          ),
+          signPageState(),
+        ],
       ),
     );
   }

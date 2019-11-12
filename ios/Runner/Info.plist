@@ -7,7 +7,7 @@
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
+	<string>com.example.flutter_study_app</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
@@ -22,37 +22,7 @@
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>KAKAO_APP_KEY</key>
-	<string>a6387b7811a594082baa53208343832d</string>
-	<key>LSApplicationQueriesSchemes</key>
-	<array>
-		<!-- 공통 -->
-		<string>kakaoa6387b7811a594082baa53208343832d</string>
-
-		<!-- 간편로그인 -->
-		<string>kakaokompassauth</string>
-		<string>storykompassauth</string>
-
-		<!-- 카카오톡링크 -->
-		<string>kakaolink</string>         
-		<string>kakaotalk-5.9.7</string>
-
-		<!-- 카카오스토리링크 -->
-		<string>storylink</string>
-	</array>
-	<key>CFBundleURLTypes</key>
-	<array>
-		<dict>
-			<key>CFBundleTypeRole</key>
-			<string>Editor</string>
-			<key>CFBundleURLName</key>
-			<string></string>
-			<key>CFBundleURLSchemes</key>
-			<array>
-				<string>kakao0123456789abcdefghijklmn</string>
-			</array>
-		</dict>
-	</array>
+	
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
@@ -72,6 +42,8 @@
 	</array>
 	<key>UIViewControllerBasedStatusBarAppearance</key>
 	<false/>
+
+	<!-- kakao Login configuration -->
 	<key>KAKAO_APP_KEY</key>
 	<string>a6387b7811a594082baa53208343832d</string>
 	<key>LSApplicationQueriesSchemes</key>
@@ -81,6 +53,10 @@
 		<string>storykompassauth</string>
 		<string>kakaolink</string>
 		<string>storylink</string>
+		<string>fbapi</string>
+        <string>fb-messenger-share-api</string>
+        <string>fbauth2</string>
+        <string>fbshareextension</string>
 	</array>
 	<key>CFBundleURLTypes</key>
 	<array>
@@ -92,8 +68,16 @@
 			<key>CFBundleURLSchemes</key>
 			<array>
 				<string>kakaoa6387b7811a594082baa53208343832d</string>
+				<string>fb2578019708953479</string>
 			</array>
 		</dict>
 	</array>
+
+	<!-- Facebook Login configuration -->
+    <key>FacebookAppID</key>
+    <string>2578019708953479</string>
+    <key>FacebookDisplayName</key>
+    <string>Login test</string>
+	
 </dict>
 </plist>

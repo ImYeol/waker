@@ -1,26 +1,62 @@
+import 'package:flutter/widgets.dart';
 import 'package:flutter_kakao_login/flutter_kakao_login.dart';
+import 'package:flutter_study_app/Utils/AuthConfig.dart';
+import 'dart:developer';
 
 class KakaoAuth {
 
   static final FlutterKakaoLogin kakaoSignIn = new FlutterKakaoLogin();
+  String _accountID = '';
+  String _accountEMAIL = '';
+
   String _loginMessage = 'Current Not Logined :(';
   String _accessToken = '';
   String _accountInfo = '';
   bool _isLogined = false;
-
+  
   List<Map<String, String>> _litems = [ { "key": "login", "title": "Login", "subtitle": ""},
                                       { "key": "logout", "title": "Logout", "subtitle": ""},
                                       { "key": "unlink", "title": "Unlink", "subtitle": ""},
                                       { "key": "account", "title": "Get AccountInfo", "subtitle": ""},
                                       { "key": "accessToken", "title": "Get AccessToken", "subtitle": ""} ];
   
-  Future<Null> login() async {
+  Future<String> login() async {
     final KakaoLoginResult result = await KakaoAuth.kakaoSignIn.logIn();
+    
+    // log('result.account.userDisplayID = ${result.account.userDisplayID}');
+    // log('result.account.userEmail = ${result.account.userEmail}');
+    // log('result.account.userID = ${result.account.userID}');
+    // log('result.account.userNickname = ${result.account.userNickname}');
+    // log('result.account.userPhoneNumber = ${result.account.userPhoneNumber}');
+    // log('result.account.userProfileImagePath = ${result.account.userProfileImagePath}');
+    // log('result.account.userThumbnailImagePath = ${result.account.userThumbnailImagePath}');
+    // log('result.status.toString() = ${result.status.toString()}');
+    
     _processLoginResult(result);
-    //if (result.account != null && result.status != KakaoLoginStatus.error) {
-    //  final KakaoAccountResult account = result.account;
-    //  _processAccountResult(account);
-    //}
+    if (result.account != null && result.status != KakaoLoginStatus.error) {
+     final KakaoAccountResult account = result.account;
+     _processAccountResult(account);
+    }
+
+    switch (result.status) {
+      case KakaoLoginStatus.loggedIn:
+        print('LoggedIn by the user.\n'
+                      '- UserID is ${result.account.userID}\n'
+                      '- UserEmail is ${result.account.userEmail} ');
+        return AuthConfig.loggedIn;
+        break;
+      case KakaoLoginStatus.loggedOut:
+        print('LoggedOut by the user.');
+        return AuthConfig.loggedOut;
+      break;
+      case KakaoLoginStatus.error:
+        print('This is Kakao error message : ${result.errorMessage}');
+        return AuthConfig.error;
+      break;
+    }
+  
+    //defult return error
+    return AuthConfig.error;
   }
 
   Future<Null> logOut() async {
@@ -52,54 +88,46 @@ class KakaoAuth {
   }
 
   void _updateLoginMessage(String message) {
-    // setState(() {
-    //   _loginMessage = message;
-    // });
+    _loginMessage = message;
   }
 
   void _updateStateLogin(bool logined) {
-    // setState(() {
-    //   _isLogined = logined;      
-    // });
-    // if (!logined) {
-    //   _updateAccessToken('');
-    //   _updateAccountMessage('');
-    // }
+    _isLogined = logined;      
+    if (!logined) {
+      _updateAccessToken('');
+      _updateAccountMessage('');
+    }
   }
 
   void _updateAccessToken(String accessToken) {
-    // setState(() {
-    //   _accessToken = accessToken;
-    // });
+    _accessToken = accessToken;
   }
 
   void _updateAccountMessage(String message) {
-    // setState(() {
-    //   _accountInfo = message;
-    // });
+    setState(() {
+      _accountInfo = message;
+    });
   }
 
   void _processLoginResult(KakaoLoginResult result) {
     switch (result.status) {
       case KakaoLoginStatus.loggedIn:
         _updateLoginMessage('LoggedIn by the user.');
-
         _updateStateLogin(true);
         break;
       case KakaoLoginStatus.loggedOut:
         _updateLoginMessage('LoggedOut by the user.');
-
         _updateStateLogin(false);
         break;
       case KakaoLoginStatus.error:
         _updateLoginMessage('This is Kakao error message : ${result.errorMessage}');
-
         _updateStateLogin(false);
         break;
     }
   }
 
   void _processAccountResult(KakaoAccountResult account) {
+    debugPrint('account : $account');
     if (account == null) {
       _updateAccountMessage('');
     } else {
@@ -118,7 +146,30 @@ class KakaoAuth {
                             '- Nickname is ${userNickname}\n'
                             '- ProfileImagePath is ${userProfileImagePath}\n'
                             '- ThumbnailImagePath is ${userThumbnailImagePath}');
+
+      _updateAccountID(userID);
+      _updateAccountEMAIL(userEmail);
+      
     }
   }
+
+  void _updateAccountID(String accountid) {
+    _accountID = accountid;
+  }
+
+   void _updateAccountEMAIL(String accountemail) {
+    _accountEMAIL = accountemail;
+  }
+
+  String GetAccountID(){
+    return _accountID;
+  }
+
+  String GetAccountEMAIL(){
+    return _accountEMAIL;
+  }
+  
+  void setState(Null Function() res) {}
+  
 
 }

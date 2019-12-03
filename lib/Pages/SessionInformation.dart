@@ -1,15 +1,3 @@
-//https://flutterawesome.com/a-flutter-app-based-on-the-design-of-the-to-do-app/
-// https://www.youtube.com/watch?v=JyWHK2m1gXs&list=PL83sAL43-XIKaT2_TiGNwELnF9ikF8UjZ&index=10
-// https://www.youtube.com/watch?v=OLmE2Pu-coU&list=PL1eg7lduV2gkdN_movHRXeSdObKgMyepy&index=2
-// https://www.youtube.com/watch?v=h-igXZCCrrc&t=973s
-// https://www.youtube.com/watch?v=-rqvZfUdSPw&t=5207s
-// https://www.youtube.com/watch?v=GD3jbAPe_XY
-
-// page flie - chart view : 1 day, 1 week, 1 month
-// online friends
-// notification list
-
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
@@ -48,7 +36,7 @@ class _SessionInformationState extends State<SessionInformation> {
               padding: EdgeInsets.only(left: 20, right: 20),
       );
   }
-
+  
   Widget getFriendsInfoSlidingUpWidget() {
     return SlidingUpPanel(
       borderRadius: BorderRadius.only(topLeft: Radius.circular(60), topRight: Radius.circular(60)),
@@ -135,7 +123,7 @@ class _SessionInformationState extends State<SessionInformation> {
     );
   }
   Widget getChartUI(){
-    return          AnimatedCircularChart(
+    return  AnimatedCircularChart(
               key: _chartKey,
               size: _chartSize,
               initialChartData: <CircularStackEntry>[

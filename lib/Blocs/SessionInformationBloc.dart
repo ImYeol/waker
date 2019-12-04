@@ -11,6 +11,7 @@ class SessionInformationBloc extends Bloc {
   final _notificationFetcher = PublishSubject<NotificationItem>();
 
   Observable<FriendListItem> get friendList => _friendListFetcher.stream;
+  Observable<NotificationItem> get notificationList => _notificationFetcher.stream;
 
   fetchAllFriendList() async {
     FriendListItem friendListModel = await _repository.fetchAllFriendList();

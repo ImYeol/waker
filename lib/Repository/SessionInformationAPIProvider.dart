@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:flutter/services.dart';
 import 'package:flutter_study_app/Models/FriendListItem.dart';
 import 'package:flutter_study_app/Models/NotificationItem.dart';
 import 'package:http/http.dart';
@@ -16,7 +17,10 @@ class SessionInformationAPIProvider {
       return FriendListItem.fromJson(json.decode(response.body));
     } else {
       // If that call was not successful, throw an error.
-      throw Exception('Failed to load post');
+      //throw Exception('Failed to load post');
+      print("not response for friend list");
+      String tempJson = await rootBundle.loadString('datas/friend_list.json');
+      return FriendListItem.fromJson(json.decode(tempJson));
     }
   }
 
@@ -30,7 +34,9 @@ class SessionInformationAPIProvider {
       return NotificationItem.fromJson(json.decode(response.body));
     } else {
       // If that call was not successful, throw an error.
-      throw Exception('Failed to load post');
+      print("not response for notification list");
+      String tempJson = await rootBundle.loadString('datas/notification_list.json');
+      return NotificationItem.fromJson(json.decode(tempJson));
     }
   }
 }

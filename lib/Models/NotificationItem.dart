@@ -31,7 +31,6 @@ class Result {
     _month = result['month'];
     _day = result['day'];
     _year = result['year'];
-
   }
 
   String get name => _name;

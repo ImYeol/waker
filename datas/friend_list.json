@@ -1,0 +1,24 @@
+{
+    "results": [
+        {
+            "name": "jongsu",
+            "isOnline": true
+        },
+        {
+            "name": "gwanyeol",
+            "isOnline": true
+        },
+        {
+            "name": "nanana",
+            "isOnline": false
+        },
+        {
+            "name": "asedrfwe",
+            "isOnline": true
+        },
+        {
+            "name": "ddddddd",
+            "isOnline": false
+        }
+    ]
+}

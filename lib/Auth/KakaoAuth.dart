@@ -22,16 +22,6 @@ class KakaoAuth {
   
   Future<String> login() async {
     final KakaoLoginResult result = await KakaoAuth.kakaoSignIn.logIn();
-    
-    // log('result.account.userDisplayID = ${result.account.userDisplayID}');
-    // log('result.account.userEmail = ${result.account.userEmail}');
-    // log('result.account.userID = ${result.account.userID}');
-    // log('result.account.userNickname = ${result.account.userNickname}');
-    // log('result.account.userPhoneNumber = ${result.account.userPhoneNumber}');
-    // log('result.account.userProfileImagePath = ${result.account.userProfileImagePath}');
-    // log('result.account.userThumbnailImagePath = ${result.account.userThumbnailImagePath}');
-    // log('result.status.toString() = ${result.status.toString()}');
-    
     _processLoginResult(result);
     if (result.account != null && result.status != KakaoLoginStatus.error) {
      final KakaoAccountResult account = result.account;
@@ -40,9 +30,7 @@ class KakaoAuth {
 
     switch (result.status) {
       case KakaoLoginStatus.loggedIn:
-        print('LoggedIn by the user.\n'
-                      '- UserID is ${result.account.userID}\n'
-                      '- UserEmail is ${result.account.userEmail} ');
+        await _getAccessToken();
         return AuthConfig.loggedIn;
         break;
       case KakaoLoginStatus.loggedOut:
@@ -81,7 +69,7 @@ class KakaoAuth {
     final KakaoAccessToken accessToken = await (kakaoSignIn.currentAccessToken);
     if (accessToken != null) {
       final token = accessToken.token;
-      _updateAccessToken('AccessToken is \n' + token);
+      _updateAccessToken(token);
     } else {
       _updateAccessToken('');
     }
@@ -104,9 +92,7 @@ class KakaoAuth {
   }
 
   void _updateAccountMessage(String message) {
-    setState(() {
       _accountInfo = message;
-    });
   }
 
   void _processLoginResult(KakaoLoginResult result) {
@@ -167,6 +153,10 @@ class KakaoAuth {
 
   String GetAccountEMAIL(){
     return _accountEMAIL;
+  }
+
+  String GetAccessToken(){
+    return _accessToken;
   }
   
   void setState(Null Function() res) {}

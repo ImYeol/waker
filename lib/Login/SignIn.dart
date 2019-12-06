@@ -8,7 +8,8 @@ import 'package:flutter_kakao_login/flutter_kakao_login.dart';
 import 'package:flutter_study_app/Auth/FacebookAuth.dart';
 import 'package:flutter_study_app/Auth/KakaoAuth.dart';
 import 'package:flutter_study_app/Utils/AuthConfig.dart';
-import 'package:flutter_study_app/restapi/LoginRestapi.dart';
+import 'package:flutter_study_app/restapi/KakaoLoginRestapi.dart';
+import 'package:flutter_study_app/restapi/FacebookLoginRestapi.dart';
 
 class SignInPage extends StatefulWidget{
   @override
@@ -17,12 +18,19 @@ class SignInPage extends StatefulWidget{
 
 class _SignInPageState extends State<SignInPage>{
 
+  //Kakao Login  
   KakaoAuth mkakaoauth = new KakaoAuth();
-  LoginRestapi mloginrestapi = new LoginRestapi();
+  KakaoLoginRestapi mkakaologinrestapi = new KakaoLoginRestapi();
+
+  //Facebook Login 
   FacebookAuth mfacebookauth = new FacebookAuth();
+  FacebookLoginRestapi mfacebookloginrestapi = new FacebookLoginRestapi();
+
+  int loginHttpState;
 
   String accountid;
   String accountemail;
+  String accesstoken;
 
 
   Widget signInPageState() {
@@ -250,14 +258,21 @@ class _SignInPageState extends State<SignInPage>{
                       children: <Widget>[
                         new Expanded(
                           child: new FlatButton(
-                            onPressed: ()=> mfacebookauth.login().then((facebookloginstate){
+                            onPressed: ()=> mfacebookauth.login().then((facebookloginstate) async {
                               switch(facebookloginstate){
                                 case AuthConfig.loggedIn:
+                                  accountid = mfacebookauth.GetAccountID();
+                                  accesstoken = mfacebookauth.GetAccessToken();
 
-                                  // mloginrestapi.
+                                  loginHttpState = await mfacebookloginrestapi.FacebookLoginPost(accountid, accesstoken);
+                                  if(loginHttpState != HttpStatus.ok){
+                                    break;
+                                  }
                                   Navigator.pushNamed(context, '/MainScreen');
                                   break;
                                 case AuthConfig.error:
+                                  break;
+                                default:
                                   break;
                               }
                             }),
@@ -290,17 +305,25 @@ class _SignInPageState extends State<SignInPage>{
                       children: <Widget>[
                         new Expanded(
                           child: new FlatButton(
-                            onPressed: ()=> mkakaoauth.login().then((kakaologinstate){
+                            onPressed: ()=> mkakaoauth.login().then((kakaologinstate) async {
                               switch(kakaologinstate){
                                 case AuthConfig.loggedIn:
                                   accountid = mkakaoauth.GetAccountID();
                                   accountemail = mkakaoauth.GetAccountEMAIL();
-                                  
-                                  mloginrestapi.KakaoLoginPost(accountid, accountemail);
+                                  accesstoken = mkakaoauth.GetAccessToken();
+
+                                  loginHttpState = await mkakaologinrestapi.KakaoLoginPost(accountid, accountemail, accesstoken);
+
+
+                                  if(loginHttpState != HttpStatus.ok){
+                                    break;
+                                  }
 
                                   Navigator.pushNamed(context, '/MainScreen');
                                   break;
                                 case AuthConfig.error:
+                                  break;
+                                default:
                                   break;
                               }
                             }),
@@ -339,12 +362,16 @@ class _SignInPageState extends State<SignInPage>{
                                 case AuthConfig.loggedIn:
                                   accountid = mkakaoauth.GetAccountID();
                                   accountemail = mkakaoauth.GetAccountEMAIL();
-                                  
-                                  mloginrestapi.KakaoLoginPost(accountid, accountemail);
+                                  accesstoken = mkakaoauth.GetAccessToken();
+
+                                  mkakaologinrestapi.KakaoLoginPost(accountid, accountemail,accesstoken);
 
                                   Navigator.pushNamed(context, '/MainScreen');
                                   break;
                                 case AuthConfig.error:
+                                  break;
+                                default:
+                                  print("default");
                                   break;
                               }
                             }),

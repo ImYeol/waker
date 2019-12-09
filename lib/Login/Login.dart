@@ -1,5 +1,8 @@
 
 import 'package:flutter/material.dart';
+import 'package:flutter_study_app/Blocs/AppBloc.dart';
+import 'package:flutter_study_app/Blocs/LoginUiBloc.dart';
+import 'package:flutter_study_app/Provider/AppBlocProvider.dart';
 
 class LoginPage extends StatefulWidget{
   @override
@@ -7,6 +10,30 @@ class LoginPage extends StatefulWidget{
 }
 
 class _LoginPageState extends State<LoginPage>{
+
+  LoginUiBloc _loginUiBloc;
+
+  @override
+  void didChangeDependencies() {
+    _loginUiBloc = AppBlocProvider.of(context).loginUibloc;
+    super.didChangeDependencies();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _loginUiBloc.dispose();
+    super.dispose();
+  }
+  
+  @override 
+  Widget build(BuildContext context){
+    return Container(
+      height:MediaQuery.of(context).size.height,
+      child: PageView(
+        children: <Widget>[loginPageState()] ,
+      ),
+    );
+  }
 
   Widget loginPageState(){
     return new Container(
@@ -21,114 +48,15 @@ class _LoginPageState extends State<LoginPage>{
       ),
       child: new Column(
         children: <Widget>[
-          Container(
-            padding: EdgeInsets.only(top:100.0),
-            child: Center(
-              child: Icon(Icons.import_contacts, color: Colors.white, size: 40.0,),
-            ),
-          ),
-          Container(
-            padding: EdgeInsets.only(top: 20.0),
-            child: new Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  "GwanJong   ",
-                  style: TextStyle(color: Colors.white, fontSize: 30.0, fontFamily: 'Mansalva'),
-                ),
-                Text(
-                  "Project",
-                  style: TextStyle(color: Colors.white, fontSize: 30.0, fontWeight: FontWeight.bold, fontFamily: 'Mansalva'),
-                )
-              ],
-            ),
-          ),
-          new Container(
-            width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 100.0),
-            alignment: Alignment.center,
-            child: new Row(
-              children: <Widget>[
-                Expanded(
-                  child: new OutlineButton(
-                    shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-                    color: Colors.red,
-                    highlightedBorderColor: Colors.white,
-                    onPressed: () => gotoSignup(),
-                    child: new Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0,),
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          new Expanded(
-                            child: Text(
-                              "SIGN UP",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Futura'),
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          new Container(
-            width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 30.0),
-            alignment: Alignment.center,
-            child: new Row(
-              children: <Widget>[
-                Expanded(
-                  child: new FlatButton(
-                    shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0),),
-                    color: Colors.blue,
-                    onPressed: () => gotoLogin(),
-                    child: new Container(
-                      padding: const EdgeInsets.symmetric(vertical: 20.0, horizontal: 20.0),
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          new Expanded(
-                            child: Text(
-                              "LOGIN",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Futura'),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-              ],
-            ),
-          )
+          _loginUiBloc.icon(100.0, 30.0, Colors.white),
+          _loginUiBloc.projectName(20.0, 30.0),
+          
+          Divider(height: 50.0,),
+          _loginUiBloc.button1(context, "SIGN UP", "/SignUp"),
+          _loginUiBloc.button1(context, "LOGIN", "/SignIn")
         ],
       ),
     );
   }
-
-  gotoSignup(){
-    print("SIGN UP Clicked");
-    Navigator.pushNamed(context, '/SignUp');
-  } 
-
-  gotoLogin(){
-    print("LOGIN Clicked");
-    Navigator.pushNamed(context, '/SignIn');
-  }
-
-  @override 
-  Widget build(BuildContext context){
-    return Container(
-      height:MediaQuery.of(context).size.height,
-      child: PageView(
-        children: <Widget>[loginPageState()] ,
-      ),
-      
-    );
-  }
+  
 }

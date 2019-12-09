@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter_study_app/Model/LoginUser.dart';
 import 'package:http/http.dart' as http;
 
 class FacebookLoginRestapi {

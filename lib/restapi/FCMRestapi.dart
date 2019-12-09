@@ -18,7 +18,6 @@ class FCMRestapi {
   //BuildContext _context;
   AppBloc _appBloc;
   StreamSubscription iosSubscription;
-  final String serverToken = 'AAAAFKWsDNo:APA91bFcCsx0WWQA4rvoj3y4mWBVJ9oxEM8u6j4_Kz1xex0F5yXhCosQFnkpvh5QYJxKN_iAZSALMpPsad2hGbv4b-LqIlmVpe5Hbi0MLyCj61f3J5rWZ99UNPXphqEdPdCtJJJChnzZ';
 
   FCMRestapi(AppBloc appBloc) {
     //_context = context;

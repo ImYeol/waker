@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_study_app/Blocs/AppBloc.dart';
 import 'package:flutter_study_app/Pages/MainScreen.dart';
+import 'package:flutter_study_app/Login/LoginMainPage.dart';
 import 'package:flutter_study_app/Provider/AppBlocProvider.dart';
-import 'package:flutter_study_app/Restapi/FCMRestapi.dart';
-//import 'package:flutter_study_app/Restapi/FCMRestapi.dart';
 import 'package:flutter_study_app/Utils/Const.dart';
 
 void main() => runApp(MyApp());

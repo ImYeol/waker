@@ -7,6 +7,8 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_kakao_login/flutter_kakao_login.dart';
 import 'package:flutter_study_app/Auth/FacebookAuth.dart';
 import 'package:flutter_study_app/Auth/KakaoAuth.dart';
+import 'package:flutter_study_app/Blocs/LoginUiBloc.dart';
+import 'package:flutter_study_app/Provider/AppBlocProvider.dart';
 import 'package:flutter_study_app/Utils/AuthConfig.dart';
 import 'package:flutter_study_app/restapi/KakaoLoginRestapi.dart';
 import 'package:flutter_study_app/restapi/FacebookLoginRestapi.dart';
@@ -18,20 +20,33 @@ class SignInPage extends StatefulWidget{
 
 class _SignInPageState extends State<SignInPage>{
 
-  //Kakao Login  
-  KakaoAuth mkakaoauth = new KakaoAuth();
-  KakaoLoginRestapi mkakaologinrestapi = new KakaoLoginRestapi();
+LoginUiBloc _loginUiBloc;
 
-  //Facebook Login 
-  FacebookAuth mfacebookauth = new FacebookAuth();
-  FacebookLoginRestapi mfacebookloginrestapi = new FacebookLoginRestapi();
-
-  int loginHttpState;
-
-  String accountid;
-  String accountemail;
-  String accesstoken;
-
+@override
+  void didChangeDependencies() {
+    _loginUiBloc = AppBlocProvider.of(context).loginUibloc;
+    super.didChangeDependencies();
+  }
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    _loginUiBloc.dispose();
+    super.dispose();
+  }
+  
+@override 
+  Widget build(BuildContext context){
+    return Scaffold(
+      body: new ListView(
+        children: <Widget>[
+          SizedBox(
+            height: MediaQuery.of(context).padding.top,
+          ),
+          signInPageState(),
+        ],
+      ),
+    );
+  }
 
   Widget signInPageState() {
     return new Container(
@@ -46,351 +61,29 @@ class _SignInPageState extends State<SignInPage>{
       ),
       child: new Column(
         children: <Widget>[
-          Container(
-            padding: EdgeInsets.all(50.0),
-            child: Center(
-              child: Icon(
-                Icons.import_contacts,
-                color: Colors.blue,
-                size: 50.0,
-              ),
-            ),
-          ),
-          new Row(
-            children: <Widget>[
-              new Expanded(
-                child: new Padding(
-                  padding: const EdgeInsets.only(left: 40.0),
-                  child: new Text(
-                    "EMAIL",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                      fontSize: 15.0,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          new Container(
-            width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.only(left: 40.0, right: 40.0, top: 10.0),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    color: Colors.blue,
-                    width: 0.5,
-                    style: BorderStyle.solid),
-              ),
-            ),
-            padding: const EdgeInsets.only(left: 0.0, right: 10.0),
-            child: new Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                new Expanded(
-                  child: TextField(
-                    obscureText: true,
-                    textAlign: TextAlign.left,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: 'gwanjong@gmail.com',
-                      hintStyle: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Divider(
-            height: 24.0,
-          ),
-          new Row(
-            children: <Widget>[
-              new Expanded(
-                child: new Padding(
-                  padding: const EdgeInsets.only(left: 40.0),
-                  child: new Text(
-                    "PASSWORD",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                      fontSize: 15.0,
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-          new Container(
-            width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.only(left: 40.0, right: 40.0, top: 10.0),
-            alignment: Alignment.center,
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                    color: Colors.blue,
-                    width: 0.5,
-                    style: BorderStyle.solid),
-              ),
-            ),
-            padding: const EdgeInsets.only(left: 0.0, right: 10.0),
-            child: new Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: <Widget>[
-                new Expanded(
-                  child: TextField(
-                    obscureText: true,
-                    textAlign: TextAlign.left,
-                    decoration: InputDecoration(
-                      border: InputBorder.none,
-                      hintText: '*********',
-                      hintStyle: TextStyle(color: Colors.grey),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Divider(
-            height: 24.0,
-          ),
-          new Row(
-            mainAxisAlignment: MainAxisAlignment.end,
-            children: <Widget>[
-              Padding(
-                padding: const EdgeInsets.only(right: 20.0),
-                child: new FlatButton(
-                  child: new Text(
-                    "Forgot Password?",
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      color: Colors.blue,
-                      fontSize: 15.0,
-                    ),
-                    textAlign: TextAlign.end,
-                  ),
-                  onPressed: () => {},
-                ),
-              ),
-            ],
-          ),
-          new Container(
-            width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
-            alignment: Alignment.center,
-            child: new Row(
-              children: <Widget>[
-                new Expanded(
-                  child: new FlatButton(
-                    shape: new RoundedRectangleBorder(
-                      borderRadius: new BorderRadius.circular(30.0),
-                    ),
-                    color: Colors.blue,
-                    onPressed: () => Navigator.pushNamed(context, '/MainScreen'),
-                    child: new Container(
-                      padding: const EdgeInsets.symmetric(
-                        vertical: 20.0,
-                        horizontal: 20.0,
-                      ),
-                      child: new Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          new Expanded(
-                            child: Text(
-                              "LOGIN",
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          new Container(
-            width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
-            alignment: Alignment.center,
-            child: Row(
-              children: <Widget>[
-                new Expanded(
-                  child: new Container(
-                    margin: EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(border: Border.all(width: 0.25)),
-                  ),
-                ),
-                Text(
-                  "OR CONNECT WITH",
-                  style: TextStyle(
-                    color: Colors.grey,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-                new Expanded(
-                  child: new Container(
-                    margin: EdgeInsets.all(8.0),
-                    decoration: BoxDecoration(border: Border.all(width: 0.25)),
-                  ),
-                ),
-              ],
-            ),
-          ),
 
-          new Container(
-            width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
-            child: new Row(
-              children: <Widget>[
-                new Expanded(
-                  child: new Container(
-                    margin: EdgeInsets.only(right: 8.0),
-                    alignment: Alignment.center,
-                    child: new Row(
-                      children: <Widget>[
-                        new Expanded(
-                          child: new FlatButton(
-                            onPressed: ()=> mfacebookauth.login().then((facebookloginstate) async {
-                              switch(facebookloginstate){
-                                case AuthConfig.loggedIn:
-                                  accountid = mfacebookauth.GetAccountID();
-                                  accesstoken = mfacebookauth.GetAccessToken();
+          _loginUiBloc.icon(50.0, 50.0, Colors.blue),
+          
+          _loginUiBloc.leftRowCloum(15, "EMAIL", Colors.blue, 15.0, null),
+          _loginUiBloc.inputRow(context, "jongsoo@gmail.com", 30.0, false),
+          Divider(height: 24.0,),
 
-                                  loginHttpState = await mfacebookloginrestapi.FacebookLoginPost(accountid, accesstoken);
-                                  if(loginHttpState != HttpStatus.ok){
-                                    break;
-                                  }
-                                  Navigator.pushNamed(context, '/MainScreen');
-                                  break;
-                                case AuthConfig.error:
-                                  break;
-                                default:
-                                  break;
-                              }
-                            }),
-                            padding: EdgeInsets.only(
-                              top: 20.0,
-                              bottom: 20.0,
-                            ),
-                            
-                            child: Image.asset('images/facebook_account_login.png'),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          _loginUiBloc.leftRowCloum(15, "PASSWORD", Colors.blue, 15.0, null),
+          _loginUiBloc.inputRow(context, "*********", 30.0, true),
+          Divider(height: 24.0,),
 
-          new Container(
-            width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 0.0),
-            child: new Row(
-              children: <Widget>[
-                new Expanded(
-                  child: new Container(
-                    margin: EdgeInsets.only(right: 8.0),
-                    alignment: Alignment.center,
-                    child: new Row(
-                      children: <Widget>[
-                        new Expanded(
-                          child: new FlatButton(
-                            onPressed: ()=> mkakaoauth.login().then((kakaologinstate) async {
-                              switch(kakaologinstate){
-                                case AuthConfig.loggedIn:
-                                  accountid = mkakaoauth.GetAccountID();
-                                  accountemail = mkakaoauth.GetAccountEMAIL();
-                                  accesstoken = mkakaoauth.GetAccessToken();
+          _loginUiBloc.rightRowCloum(context, 20, "Forgot Password?", Colors.blue, 15.0, null),
 
-                                  loginHttpState = await mkakaologinrestapi.KakaoLoginPost(accountid, accountemail, accesstoken);
+          _loginUiBloc.button1(context, "LOGIN", "/MainScreen"),
+          
+          _loginUiBloc.line1(context, "OR CONNECT WITH"),
+          
 
+          _loginUiBloc.kakaoLoginButton(context, 20.0),
+          _loginUiBloc.facebookLoginButton(context, 0.0),
+          
 
-                                  if(loginHttpState != HttpStatus.ok){
-                                    break;
-                                  }
-
-                                  Navigator.pushNamed(context, '/MainScreen');
-                                  break;
-                                case AuthConfig.error:
-                                  break;
-                                default:
-                                  break;
-                              }
-                            }),
-                            padding: EdgeInsets.only(
-                              top: 5.0,
-                              bottom: 5.0,
-                            ),
-
-                            child: Image.asset('images/kakao_account_login_btn_medium_wide.png'),
-                            
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-
-          new Container(
-            width: MediaQuery.of(context).size.width,
-            margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 20.0),
-            child: new Row(
-              children: <Widget>[
-                new Expanded(
-                  child: new Container(
-                    margin: EdgeInsets.only(right: 8.0),
-                    alignment: Alignment.center,
-                    child: new Row(
-                      children: <Widget>[
-                        new Expanded(
-                          child: new FlatButton(
-                            onPressed: ()=> mkakaoauth.login().then((kakaologinstate){
-                              switch(kakaologinstate){
-                                case AuthConfig.loggedIn:
-                                  accountid = mkakaoauth.GetAccountID();
-                                  accountemail = mkakaoauth.GetAccountEMAIL();
-                                  accesstoken = mkakaoauth.GetAccessToken();
-
-                                  mkakaologinrestapi.KakaoLoginPost(accountid, accountemail,accesstoken);
-
-                                  Navigator.pushNamed(context, '/MainScreen');
-                                  break;
-                                case AuthConfig.error:
-                                  break;
-                                default:
-                                  print("default");
-                                  break;
-                              }
-                            }),
-                            padding: EdgeInsets.only(
-                              top: 5.0,
-                              bottom: 5.0,
-                            ),
-
-                            child: Image.asset('images/kakao_account_login_btn_medium_narrow_EN.png'),
-                            
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          
 
           Divider(height: 20.0,),
           
@@ -399,18 +92,6 @@ class _SignInPageState extends State<SignInPage>{
     );
   }
 
-  @override 
-  Widget build(BuildContext context){
-    return Scaffold(
-      body: new ListView(
-        children: <Widget>[
-          SizedBox(
-            height: MediaQuery.of(context).padding.top,
-          ),
-          signInPageState(),
-        ],
-      ),
-    );
-  }
+  
 
 }

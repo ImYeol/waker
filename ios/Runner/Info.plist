@@ -45,10 +45,10 @@
 
 	<!-- kakao Login configuration -->
 	<key>KAKAO_APP_KEY</key>
-	<string>a6387b7811a594082baa53208343832d</string>
+	<string>b378b5db163bd442317a2e11bbb6db59</string>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
-		<string>kakaoa6387b7811a594082baa53208343832d</string>
+		<string>kakaoab378b5db163bd442317a2e11bbb6db59</string>
 		<string>kakaokompassauth</string>
 		<string>storykompassauth</string>
 		<string>kakaolink</string>
@@ -67,7 +67,7 @@
 			<string></string>
 			<key>CFBundleURLSchemes</key>
 			<array>
-				<string>kakaoa6387b7811a594082baa53208343832d</string>
+				<string>kakaob378b5db163bd442317a2e11bbb6db59</string>
 				<string>fb2578019708953479</string>
 			</array>
 		</dict>

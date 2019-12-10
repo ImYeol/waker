@@ -19,6 +19,17 @@ class LoginUiBloc{
           );
   }
 
+  Image smallImage(double width, double height){
+    return Image(
+      image: new AssetImage("images/main_icon.png"),
+      width: width,
+      height: height,
+      color: null,
+      fit: BoxFit.scaleDown,
+      alignment: Alignment.center,
+    );
+  }
+
   Container projectName(double edge, double fontSize){
     return Container(
             padding: EdgeInsets.only(top: edge),

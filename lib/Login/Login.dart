@@ -39,21 +39,26 @@ class _LoginPageState extends State<LoginPage>{
     return new Container(
       height: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
-        color: Colors.blueGrey,
-        image: DecorationImage(
-          colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.20), BlendMode.dstATop),
-          image: AssetImage('images/home3.jpg'),
-          fit: BoxFit.cover,
-        ),
+        color: Colors.white,
+        // image: DecorationImage(
+        //   colorFilter: new ColorFilter.mode(Colors.black.withOpacity(0.20), BlendMode.dstATop),
+        //   image: AssetImage('images/home3.jpg'),
+        //   fit: BoxFit.cover,
+        // ),
       ),
       child: new Column(
         children: <Widget>[
-          _loginUiBloc.icon(100.0, 30.0, Colors.white),
-          _loginUiBloc.projectName(20.0, 30.0),
           
+          // _loginUiBloc.icon(100.0, 30.0, Colors.white),
+          // _loginUiBloc.projectName(20.0, 30.0),
+
+          Divider(height: 100.0,),
+          _loginUiBloc.smallImage(30.0, 30.0),
+          _loginUiBloc.line1(context, "가입하세요"),
           Divider(height: 50.0,),
-          _loginUiBloc.button1(context, "SIGN UP", "/SignUp"),
-          _loginUiBloc.button1(context, "LOGIN", "/SignIn")
+          _loginUiBloc.kakaoLoginButton(context, 20.0),
+          // _loginUiBloc.button1(context, "SIGN UP", "/SignUp"),
+          // _loginUiBloc.button1(context, "LOGIN", "/SignIn")
         ],
       ),
     );

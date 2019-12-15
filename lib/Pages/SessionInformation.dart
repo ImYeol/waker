@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter_study_app/Blocs/SessionInformationBloc.dart';
-import 'package:flutter_study_app/Models/FriendListItem.dart';
-import 'package:flutter_study_app/Models/NotificationItem.dart';
 import 'package:flutter_study_app/Provider/AppBlocProvider.dart';
+import 'package:flutter_study_app/Widgets/FriendListView.dart';
+import 'package:flutter_study_app/Widgets/NotificationListView.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 
 class SessionInformation extends StatefulWidget {
@@ -87,104 +87,19 @@ class _SessionInformationState extends State<SessionInformation> {
     );
   }
   Widget getFriendsState() {
+    print("getFriendsState");
     _sessionBloc.fetchAllFriendList();
 
-    return Container(
-      width: MediaQuery.of(context).size.width,
-      height: 100,
-      padding: EdgeInsets.only(left: 20, right: 20, bottom: 10),
-      child: StreamBuilder(
-        stream: _sessionBloc.friendList,
-        builder: (context, AsyncSnapshot<FriendListItem> snapshot) {
-          if(snapshot.hasData) {
-            return buildFriendState(snapshot);
-          } else if(snapshot.hasError) {
-            print("friend list snapshot has error");
-            return Text(snapshot.data.toString()); 
-          }
-          return Center(child: CircularProgressIndicator());
-        },
-      )
-    );
+    return FriendListView(height: 100, width: MediaQuery.of(context).size.width, stream: _sessionBloc.friendList);
   }
-  Widget buildFriendState(AsyncSnapshot<FriendListItem> snapshot) {
-      return Padding(
-          padding: EdgeInsets.only(left: 10, right: 10, top: 10),
-          child: ListView.builder(
-          scrollDirection: Axis.horizontal,
-          itemCount: snapshot.data.results.length,
-          itemBuilder: (BuildContext context, int index) {
-            return Padding(
-                padding: EdgeInsets.only(top:10, right: 30),
-                child: Column(
-                    children: <Widget>[
-                      Container(
-                        height: 30,
-                        width: 30,
-                        decoration: BoxDecoration(borderRadius: BorderRadius.circular(30), color: snapshot.data.results[index].isOnline? Colors.orange : Colors.grey),
-                      ),
-                      SizedBox(height: 5,),
-                      Text(snapshot.data.results[index].name, style: TextStyle(color: Colors.purple, fontFamily: 'Graphik',fontSize: 15.0))
-                    ]
-                ),
-            ); 
-          },)
-      );
-  }
+ 
   Widget getNotifications() {
+    print("getNotifications");
     _sessionBloc.fetchAllNotification();
-    return StreamBuilder(
-        stream: _sessionBloc.notificationList,
-        builder: (context, AsyncSnapshot<NotificationItem> snapshot) {
-          if(snapshot.hasData) {
-            return buildNotificationList(snapshot);
-          } else if(snapshot.hasError) {
-            print("notification list snapshot has error");
-            return Text(snapshot.data.toString()); 
-          }
-          return Center(child: CircularProgressIndicator());
-        }
-    );
+
+    return NotificationListView(stream: _sessionBloc.notificationList);
   }
-  String getStudyState(int state) {
-    if(state == 1) {
-      return "starts";
-    } else if(state == 2) {
-      return "finishs";
-    } else if(state == 3) {
-      return "breaks up";
-    }
-    return "";
-  }
-  String getTimeInfo(AsyncSnapshot<NotificationItem> snapshot, int index) {
-    return "${snapshot.data.results[index].hour}:${snapshot.data.results[index].minute} ${snapshot.data.results[index].year}/${snapshot.data.results[index].month}/${snapshot.data.results[index].day}";
-  }
-  Widget buildNotificationList(AsyncSnapshot<NotificationItem> snapshot) {
-    return  Expanded(
-      child: Padding(
-        padding: EdgeInsets.fromLTRB(20, 20, 20, 0),
-        child: ListView.separated(
-          separatorBuilder: (context, index) => Divider(
-            color: Colors.purple,
-            thickness: 1,
-          ),
-          itemCount: snapshot.data.results.length,
-          itemBuilder: (context, index) => Padding(
-            padding: EdgeInsets.only(top:10, left: 20, right: 20, bottom: 10),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
-                //Icon(Icons.notifications,color: Colors.purple),
-                Text("${snapshot.data.results[index].name} ${getStudyState(snapshot.data.results[index].state)}",style: TextStyle(color: Colors.purple, fontFamily: 'Graphik',fontSize: 15.0)),
-                Text("${getTimeInfo(snapshot, index)}", style: TextStyle(color: Colors.purple, fontFamily: 'Graphik',fontSize: 15.0))
-              ],
-            ),
-          ),
-        )
-      )
-    );
-  }
+ 
   Widget getChartUI(){
     return  AnimatedCircularChart(
               key: _chartKey,

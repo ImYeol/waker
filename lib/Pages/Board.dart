@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_study_app/Provider/AppBlocProvider.dart';
 
 class BoardPage extends StatelessWidget {
  
@@ -67,13 +68,11 @@ class _MyHomePageState extends State<MyHomePage> {
               
               child: Text('start study',style: TextStyle(fontSize: 50, color: Colors.white, fontFamily: 'Futura')),
               colorBrightness: Brightness.light,
+              onPressed: (){
+              },
             ),
           ],
         ),
-      
-      floatingActionButton: new FloatingActionButton(
-        child: new Icon(Icons.add),
-      ),
     );
   }
   

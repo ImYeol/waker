@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "88678862042",
+    "firebase_url": "https://jongle-waker.firebaseio.com",
+    "project_id": "jongle-waker",
+    "storage_bucket": "jongle-waker.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:88678862042:android:9d567c5192d0292902e9e3",
+        "android_client_info": {
+          "package_name": "com.jongle.flutter_study_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "88678862042-sat479k250imij7v1pmhdig7thqjj19c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDq3qA-2KOdjEAtUcr107sx1HJzDimIxtU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "88678862042-sat479k250imij7v1pmhdig7thqjj19c.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

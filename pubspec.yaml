@@ -37,6 +37,8 @@ dependencies:
   rxdart: ^0.22.4
   flutter_bloc: ^1.0.0
   font_awesome_flutter:
+  firebase_messaging:  
+  firebase_analytics: ^5.0.6
 dev_dependencies:
   flutter_test:
     sdk: flutter

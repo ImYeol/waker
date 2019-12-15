@@ -1,20 +1,28 @@
+import 'package:flutter_study_app/Utils/ItemUpdateCommand.dart';
+
 class NotificationItem {
 
-  List<Result> _result = [];
+  List<Noti> _result = [];
+  ItemUpdateCommand _cmd;
 
-  NotificationItem.fromJson(Map<String, dynamic> parsedJson) {
-    List<Result> temp = [];
+  NotificationItem.fromJson(Map<dynamic, dynamic> parsedJson) {
+    List<Noti> temp = [];
     for (int i = 0; i < parsedJson['results'].length; i++) {
-      Result result = Result(parsedJson['results'][i]);
+      Noti result = Noti(parsedJson['results'][i]);
       temp.add(result);
     }
     _result = temp;
   }
 
-  List<Result> get results => _result;
+  List<Noti> get results => _result;
+  ItemUpdateCommand get cmd => _cmd;
+  set cmd(ItemUpdateCommand value) {
+    assert(value.index >= 0);
+    _cmd = value;
+  }
 }
 
-class Result {
+class Noti {
   String _name;
   int _state;
   int _hour;
@@ -23,7 +31,7 @@ class Result {
   int _day;
   int _year;
 
-  Result(result){
+  Noti(result){
     _name = result['name'];
     _state = result['state'];
     _hour = result['hour'];

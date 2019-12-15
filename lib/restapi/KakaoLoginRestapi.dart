@@ -1,7 +1,6 @@
 import 'dart:convert';
 import 'dart:ffi';
 
-import 'package:flutter_study_app/Model/LoginUser.dart';
 import 'package:http/http.dart' as http;
 
 class KakaoLoginRestapi{

@@ -6,12 +6,15 @@ import 'package:flutter_study_app/Provider/AppBlocProvider.dart';
 
 class SearchSession extends StatefulWidget {
   @override
-  State<StatefulWidget> createState() => _SearchSessionState();
+  _SearchSessionState createState() => _SearchSessionState();
 }
-
 class _SearchSessionState extends State<SearchSession> {
 
   SearchSessionBloc _searchSessionBloc;
+  List<Session> results = [];
+  bool onLoading = false;
+  final textController = TextEditingController();
+
   @override
   void didChangeDependencies() {
     // TODO: implement didChangeDependencies
@@ -26,85 +29,73 @@ class _SearchSessionState extends State<SearchSession> {
   }
   @override
   Widget build(BuildContext context) {
-    // TODO: implement build
-    return Scaffold (
-        backgroundColor: Colors.white54,
-        body: SafeArea(
-          child: Column(
-            children: <Widget>[
-              StreamBuilder(
-                stream: _searchSessionBloc.sessionInfo,
-                builder: (context, AsyncSnapshot<SessionModel> snapshot) {
-                    print("search list view builder");
-                    if(snapshot.hasData) {
-                      print("snapshot hasdata");
-                      return getFloatingSearchBar(snapshot.data.session);
-                    } else if(snapshot.hasError) {
-                      print("session snapshot has error");
-                      return Text(snapshot.data.toString()); 
-                    }
-                    //return Center(child: CircularProgressIndicator());
-                    Session initSession = Session("No result", ["nothing"]);
-                    return getFloatingSearchBar(initSession);
-                  },
-                )    
-            ],
+    return MaterialApp(
+      home: Scaffold(
+        backgroundColor: Colors.purple,
+        body: FloatingSearchBar.builder(
+          controller: textController,
+          itemCount: results.length,
+          itemBuilder: (BuildContext context, int index) {
+            if(results.length > 0)
+              return getResultCardView(results[0]);
+            else 
+              return Text("empty");
+          },
+          trailing: IconButton(
+            icon: Icon(Icons.search),
+            onPressed: onSearchClicked,
+          )
           ),
-        )
+      ) 
     );
   }
-
-  Widget getFloatingSearchBar(Session session){
-    return FloatingSearchBar.builder(
-        itemCount: 1,
-        itemBuilder: (BuildContext context, int index) {
-          //return getResult(session);
-          return ListTile(
-            leading: Text(index.toString()),
-          );
-        },
-        trailing: CircleAvatar(
-          child: Text("RD"),
-        ),
-        //onChanged: (String value) {},
-        onTap: () {
-          AppBlocProvider.of(context).searchSessionBloc.fetchSessionInfo();
-        },
-        decoration: InputDecoration.collapsed(
-          hintText: "Search Session",
-        ),
-      );
+  void onSearchClicked() {
+    print("onSearch : ${textController.text}");
+    _searchSessionBloc.fetchSessionInfo(textController.text).then((value) {
+        print("fetchSessionInfo");
+        setState(() {
+          results.clear();
+          results.add(value[0]);
+        });
+    }, onError: (error) {
+      print("error onSearchClicked - ${error.toString()}");
+    });
   }
-
-  Widget getResult(Session session) {
+  Widget getResultCardView(Session session) {
     return Container(
       //padding: EdgeInsets.only(left: 20, right: 20),
       width: MediaQuery.of(context).size.width,
-      margin: EdgeInsets.only(left: 20, right: 20, top: 10),
-      child: Card(
-        elevation: 4,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.all(
-            Radius.circular(10),
+      height: MediaQuery.of(context).size.height/2,
+      margin: EdgeInsets.only(left: 20, right: 20, top: 50),
+      child: Center(
+        child: Card (
+          elevation: 4,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.all(
+              Radius.circular(10),
+            ),
           ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              getSubTitle("#${session.name}", 20.0, Colors.purple),
+              getLineWidget(),
+              Expanded(
+                child: ListView.builder(
+                  itemCount: session.members.length,
+                  itemBuilder: (context, index) {
+                    print("index - ${index} + member[index] : ${session.members[index]}");
+                    return ListTile(
+                      leading: IconButton(icon: Icon(Icons.account_circle),onPressed: (){},),
+                      title: Text(session.members[index], style: TextStyle(color: Colors.purple, fontFamily: 'Graphik',fontSize: 15, fontWeight: FontWeight.bold))
+                      //title: Text(session.members[index]), 
+                    );
+                  },
+                ),
+              )
+            ]
+          )
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            getSubTitle(session.name, 15.0, Colors.purple),
-            Expanded(
-              child: ListView.builder(
-                itemCount: session.members.length,
-                itemBuilder: (context, index) {
-                  return ListTile(
-                    title: Text(session.members[index]), 
-                    leading: IconButton(icon: Icon(Icons.account_circle), onPressed: (){})
-                  );
-                },
-              ),
-            )
-          ]
-        )
       )
     );
   }
@@ -115,4 +106,15 @@ class _SearchSessionState extends State<SearchSession> {
         child: Text(title,style: TextStyle(color: color, fontFamily: 'Graphik',fontSize: fontSize, fontWeight: FontWeight.bold))
     );
   } 
+
+  Widget getLineWidget(){
+      return Padding(
+              child: Divider(
+                color:
+                    Colors.purple,
+                thickness: 1,
+              ),
+              padding: EdgeInsets.only(left: 20, right: 20, top: 10),
+      );
+  }
 }

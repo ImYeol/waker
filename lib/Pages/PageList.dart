@@ -23,7 +23,7 @@ class _MyPageListState extends State<PageList> {
         children: <Widget>[
           BoardPage(),
           SessionInformation(),
-          //SearchSession()
+          SearchSession(),
         ],
       ),
     );

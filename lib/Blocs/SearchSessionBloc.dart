@@ -10,9 +10,12 @@ class SearchSessionBloc extends Bloc {
 
   Observable<SessionModel> get sessionInfo => _sessionFetcher.stream;
 
-  fetchSessionInfo() async {
-    SessionModel sessionModel = await _repository.fetchSessionInfo();
-    _sessionFetcher.sink.add(sessionModel);
+  Future<List<Session>> fetchSessionInfo(String query) async {
+    SessionModel sessionModel = await _repository.fetchSessionInfo(query);
+    //_sessionFetcher.sink.add(sessionModel);
+    List<Session> sessionList = [];
+    sessionList.add(sessionModel.session);
+    return sessionList;
   }
 
   @override

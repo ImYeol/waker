@@ -3,12 +3,15 @@ import 'package:flutter_study_app/Utils/ItemUpdateCommand.dart';
 class SessionModel {
     Session _session;
 
+    SessionModel(Session session){
+      _session = session;
+    }
     SessionModel.fromJson(Map<dynamic, dynamic> parsedJson) {
       String name = parsedJson['name'];
       List<String> members = [];
       for (int i = 0; i < parsedJson['members'].length; i++) {
-        print(parsedJson['members'].toString());
-        members.add(parsedJson['members'][i]['name']);
+        print("parsed : ${parsedJson['members'][i]['id']}");
+        members.add(parsedJson['members'][i]['id']);
       }
       _session = Session(name, members);
     }

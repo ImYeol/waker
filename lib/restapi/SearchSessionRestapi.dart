@@ -6,7 +6,7 @@ import 'package:http/http.dart';
 class SearchSessionRestapi {
   Client client = Client();
 
-  Future<SessionModel> fetchSessionInfo() async {
+  Future<SessionModel> fetchSessionInfo(String query) async {
     print("entered");
     final response = await client
         .get("http://api.themoviedb.org/3/movie/popular?api_key=");
@@ -17,7 +17,7 @@ class SearchSessionRestapi {
     } else {
       // If that call was not successful, throw an error.
       //throw Exception('Failed to load post');
-      print("not response for friend list");
+      print("not response for search list");
       String tempJson = await rootBundle.loadString('datas/Session_info.json');
       return SessionModel.fromJson(json.decode(tempJson));
     }

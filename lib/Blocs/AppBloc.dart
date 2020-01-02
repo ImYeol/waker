@@ -1,15 +1,15 @@
-import 'package:flutter_study_app/Blocs/LoginUiBloc.dart';
+import 'package:flutter_study_app/Blocs/UiBloc.dart';
 import 'package:flutter_study_app/Blocs/SessionInformationBloc.dart';
 
 class AppBloc {
   SessionInformationBloc _sessionBloc;
-  LoginUiBloc _loginUiBloc;
+  UiBloc _UiBloc;
 
   AppBloc() {
     _sessionBloc = SessionInformationBloc();
-    _loginUiBloc = LoginUiBloc();
+    _UiBloc = UiBloc();
   }
 
   SessionInformationBloc get sessionBloc => _sessionBloc;
-  LoginUiBloc get loginUibloc => _loginUiBloc;
+  UiBloc get Uibloc => _UiBloc;
 }

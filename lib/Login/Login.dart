@@ -1,7 +1,6 @@
 
 import 'package:flutter/material.dart';
-import 'package:flutter_study_app/Blocs/AppBloc.dart';
-import 'package:flutter_study_app/Blocs/LoginUiBloc.dart';
+import 'package:flutter_study_app/Blocs/UiBloc.dart';
 import 'package:flutter_study_app/Provider/AppBlocProvider.dart';
 
 class LoginPage extends StatefulWidget{
@@ -11,17 +10,17 @@ class LoginPage extends StatefulWidget{
 
 class _LoginPageState extends State<LoginPage>{
 
-  LoginUiBloc _loginUiBloc;
+  UiBloc _UiBloc;
 
   @override
   void didChangeDependencies() {
-    _loginUiBloc = AppBlocProvider.of(context).loginUibloc;
+    _UiBloc = AppBlocProvider.of(context).Uibloc;
     super.didChangeDependencies();
   }
   @override
   void dispose() {
     // TODO: implement dispose
-    _loginUiBloc.dispose();
+    _UiBloc.dispose();
     super.dispose();
   }
   
@@ -53,10 +52,10 @@ class _LoginPageState extends State<LoginPage>{
           // _loginUiBloc.projectName(20.0, 30.0),
 
           Divider(height: 100.0,),
-          _loginUiBloc.smallImage(30.0, 30.0),
-          _loginUiBloc.line1(context, "가입하세요"),
+          _UiBloc.smallImage(30.0, 30.0),
+          _UiBloc.line1(context, "가입하세요"),
           Divider(height: 50.0,),
-          _loginUiBloc.kakaoLoginButton(context, 20.0),
+          _UiBloc.kakaoLoginButton(context, 20.0),
           // _loginUiBloc.button1(context, "SIGN UP", "/SignUp"),
           // _loginUiBloc.button1(context, "LOGIN", "/SignIn")
         ],

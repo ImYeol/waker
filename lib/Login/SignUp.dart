@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_study_app/Blocs/LoginUiBloc.dart';
+import 'package:flutter_study_app/Blocs/UiBloc.dart';
 import 'package:flutter_study_app/Provider/AppBlocProvider.dart';
 
 class SignUpPage extends StatefulWidget{
@@ -9,17 +9,17 @@ class SignUpPage extends StatefulWidget{
 
 class _SignUpPageState extends State<SignUpPage>{
 
-  LoginUiBloc _loginUiBloc;
+  UiBloc _UiBloc;
 
   @override
   void didChangeDependencies() {
-    _loginUiBloc = AppBlocProvider.of(context).loginUibloc;
+    _UiBloc = AppBlocProvider.of(context).Uibloc;
     super.didChangeDependencies();
   }
   @override
   void dispose() {
     // TODO: implement dispose
-    _loginUiBloc.dispose();
+    _UiBloc.dispose();
     super.dispose();
   }
   
@@ -51,29 +51,29 @@ class _SignUpPageState extends State<SignUpPage>{
       child: new Column(
         children: <Widget>[
           
-          _loginUiBloc.icon(50.0, 50.0, Colors.blue),
+          _UiBloc.icon(50.0, 50.0, Colors.blue),
 
-          _loginUiBloc.leftRowCloum(15, "EMAIL", Colors.blue, 15.0, null),
+          _UiBloc.leftRowCloum(15, "EMAIL", Colors.blue, 15.0, null),
           
-          _loginUiBloc.inputRow(context, "jongsoo@gmail.com", 30.0, false),
+          _UiBloc.inputRow(context, "jongsoo@gmail.com", 30.0, false),
 
           Divider( height: 20.0,),
 
-          _loginUiBloc.leftRowCloum(15, "PASSWORD", Colors.blue, 15.0, null),
-          _loginUiBloc.inputRow(context, "*********", 30.0, true),
+          _UiBloc.leftRowCloum(15, "PASSWORD", Colors.blue, 15.0, null),
+          _UiBloc.inputRow(context, "*********", 30.0, true),
 
           Divider( height: 20.0,),
 
-          _loginUiBloc.leftRowCloum(15, "CONFIRM PASSWORD", Colors.blue, 15.0, null),
-          _loginUiBloc.inputRow(context, "*********", 30.0, true),
+          _UiBloc.leftRowCloum(15, "CONFIRM PASSWORD", Colors.blue, 15.0, null),
+          _UiBloc.inputRow(context, "*********", 30.0, true),
 
           Divider(height: 24.0,),
 
-          _loginUiBloc.rightRowCloum(context ,20, "Already have an account?", Colors.blue, 15.0, "/SignIn"),
+          _UiBloc.rightRowCloum(context ,20, "Already have an account?", Colors.blue, 15.0, "/SignIn"),
 
           Divider(height: 20.0,),
 
-          _loginUiBloc.button1(context, "SIGN IN", "/MainScreen"),
+          _UiBloc.button1(context, "SIGN IN", "/MainScreen"),
 
           Divider(height: 20.0,),
           

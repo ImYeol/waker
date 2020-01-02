@@ -4,11 +4,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_study_app/Auth/FacebookAuth.dart';
 import 'package:flutter_study_app/Auth/KakaoAuth.dart';
+import 'package:flutter_study_app/Blocs/Bloc.dart';
 import 'package:flutter_study_app/Utils/AuthConfig.dart';
 import 'package:flutter_study_app/restapi/FacebookLoginRestapi.dart';
 import 'package:flutter_study_app/restapi/KakaoLoginRestapi.dart';
+import 'package:flutter_progress_button/flutter_progress_button.dart';
+import 'package:flutter_study_app/Models/LoginUser.dart';
 
-class LoginUiBloc{
+class UiBloc extends Bloc{
 
   Container icon(double edge, double iconSize, Color color){
     return Container(
@@ -49,41 +52,6 @@ class LoginUiBloc{
           );
   }
 
-  // Container showButton(BuildContext context, String word){
-  //   return new Container(
-  //           width: MediaQuery.of(context).size.width,
-  //           margin: const EdgeInsets.only(left: 30.0, right: 30.0, top: 100.0),
-  //           alignment: Alignment.center,
-  //           child: new Row(
-  //             children: <Widget>[
-  //               Expanded(
-  //                 child: new OutlineButton(
-  //                   shape: new RoundedRectangleBorder(borderRadius: BorderRadius.circular(30.0)),
-  //                   color: Colors.red,
-  //                   highlightedBorderColor: Colors.white,
-  //                   onPressed: () => gotoSignup(context),
-  //                   child: new Container(
-  //                     padding: const EdgeInsets.symmetric(horizontal: 20.0, vertical: 20.0,),
-  //                     child: new Row(
-  //                       mainAxisAlignment: MainAxisAlignment.center,
-  //                       children: <Widget>[
-  //                         new Expanded(
-  //                           child: Text(
-  //                             word,
-  //                             textAlign: TextAlign.center,
-  //                             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontFamily: 'Futura'),
-  //                           ),
-  //                         )
-  //                       ],
-  //                     ),
-  //                   ),
-  //                 ),
-  //               ),
-  //             ],
-  //           ),
-  //         );
-  // }
-
   Container button1(BuildContext context, String word, String navi){
     return new Container(
             width: MediaQuery.of(context).size.width,
@@ -116,6 +84,28 @@ class LoginUiBloc{
               ],
             ),
           );
+  }
+
+  ProgressButton progressButton(BuildContext context, String word){
+    return ProgressButton(
+    defaultWidget: Text(word),
+    color: Colors.blue,
+    progressWidget: const CircularProgressIndicator(),
+    width: 196,
+    height: 40,
+    onPressed: () async {
+        int score = await Future.delayed(
+            const Duration(hours: 24), () => 42);
+        // After [onPressed], it will trigger animation running backwards, from end to beginning
+        return () {
+        // Optional returns is returning a function that can be called
+        // after the animation is stopped at the beginning.
+        // A best practice would be to do time-consuming task in [onPressed],
+        // and do page navigation in the returned function.
+        // So that user won't missed out the reverse animation.
+        };
+      },
+    );
   }
 
   Container line1(BuildContext context, String word){
@@ -240,13 +230,13 @@ class LoginUiBloc{
                                   accesstoken = mkakaoauth.GetAccessToken();
 
                                   loginHttpState = await mkakaologinrestapi.KakaoLoginPost(accountid, accountemail, accesstoken);
-
+                                  
 
                                   if(loginHttpState != HttpStatus.ok){
                                     break;
                                   }
 
-                                  Navigator.pushNamed(context, '/MainScreen');
+                                  Navigator.pushNamed(context, '/TimerPage');
                                   break;
                                 case AuthConfig.error:
                                   break;
@@ -271,6 +261,7 @@ class LoginUiBloc{
             ),
           );
   }
+
   Row rowCloum(double edge, String word){
     return Row(
             children: <Widget>[
@@ -370,6 +361,7 @@ class LoginUiBloc{
             ),
           );
   }
+
 
   goto(BuildContext context, String navi){
     Navigator.pushNamed(context, navi);

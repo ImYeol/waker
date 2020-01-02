@@ -1,3 +1,5 @@
+import 'dart:math';
+import 'package:drawing_animation/drawing_animation.dart';
 import 'package:flutter/material.dart';
 
 class FeedPage extends StatefulWidget {
@@ -6,26 +8,25 @@ class FeedPage extends StatefulWidget {
 }
 
 class _FeedPageState extends State<FeedPage> {
-  Map data = {};
-
+  String watchState = "STOP";
+  bool run = false;
+  List<bool> isSelected;
   @override
   Widget build(BuildContext context) {
-/*    data = data.isNotEmpty ? data : ModalRoute.of(context).settings.arguments;
-
-    String bgImage = data['isDaytime'] ? 'day.png' : 'night.png';
-    Color bgColor = data['isDaytime'] ? Color(0xFFFA7A86) : Color(0xFF3F3D62);
-    Color textColor = data['isDaytime'] ? Colors.black : Colors.black;
-*/
     return Scaffold(
-      backgroundColor: Color(0xFFFA7A86),
-      body: Text(
-                  //data['time'],
-                  'FeedPage',
-                  style: TextStyle(
-                    fontSize: 60,
-                    color: Color(0xFF3F3D62),
-                  ),
-                )
+      floatingActionButton: FloatingActionButton(
+          onPressed: () => setState(() {
+                this.run = !this.run;
+              }),
+          child: Icon((this.run) ? Icons.stop : Icons.play_arrow)),
+      body: Center(
+        child: Column(
+          children: <Widget>[
+            Divider(height: 50.0,),
+            
+          ]
+        )
+      ),
     );
   }
 }

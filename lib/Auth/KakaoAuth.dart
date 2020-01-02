@@ -1,7 +1,6 @@
 import 'package:flutter/widgets.dart';
 import 'package:flutter_kakao_login/flutter_kakao_login.dart';
 import 'package:flutter_study_app/Utils/AuthConfig.dart';
-import 'dart:developer';
 
 class KakaoAuth {
 

@@ -7,7 +7,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_kakao_login/flutter_kakao_login.dart';
 import 'package:flutter_study_app/Auth/FacebookAuth.dart';
 import 'package:flutter_study_app/Auth/KakaoAuth.dart';
-import 'package:flutter_study_app/Blocs/LoginUiBloc.dart';
+import 'package:flutter_study_app/Blocs/UiBloc.dart';
 import 'package:flutter_study_app/Provider/AppBlocProvider.dart';
 import 'package:flutter_study_app/Utils/AuthConfig.dart';
 import 'package:flutter_study_app/restapi/KakaoLoginRestapi.dart';
@@ -20,17 +20,17 @@ class SignInPage extends StatefulWidget{
 
 class _SignInPageState extends State<SignInPage>{
 
-LoginUiBloc _loginUiBloc;
+UiBloc _UiBloc;
 
 @override
   void didChangeDependencies() {
-    _loginUiBloc = AppBlocProvider.of(context).loginUibloc;
+    _UiBloc = AppBlocProvider.of(context).Uibloc;
     super.didChangeDependencies();
   }
   @override
   void dispose() {
     // TODO: implement dispose
-    _loginUiBloc.dispose();
+    _UiBloc.dispose();
     super.dispose();
   }
   
@@ -62,25 +62,25 @@ LoginUiBloc _loginUiBloc;
       child: new Column(
         children: <Widget>[
 
-          _loginUiBloc.icon(50.0, 50.0, Colors.blue),
+          _UiBloc.icon(50.0, 50.0, Colors.blue),
           
-          _loginUiBloc.leftRowCloum(15, "EMAIL", Colors.blue, 15.0, null),
-          _loginUiBloc.inputRow(context, "jongsoo@gmail.com", 30.0, false),
+          _UiBloc.leftRowCloum(15, "EMAIL", Colors.blue, 15.0, null),
+          _UiBloc.inputRow(context, "jongsoo@gmail.com", 30.0, false),
           Divider(height: 24.0,),
 
-          _loginUiBloc.leftRowCloum(15, "PASSWORD", Colors.blue, 15.0, null),
-          _loginUiBloc.inputRow(context, "*********", 30.0, true),
+          _UiBloc.leftRowCloum(15, "PASSWORD", Colors.blue, 15.0, null),
+          _UiBloc.inputRow(context, "*********", 30.0, true),
           Divider(height: 24.0,),
 
-          _loginUiBloc.rightRowCloum(context, 20, "Forgot Password?", Colors.blue, 15.0, null),
+          _UiBloc.rightRowCloum(context, 20, "Forgot Password?", Colors.blue, 15.0, null),
 
-          _loginUiBloc.button1(context, "LOGIN", "/MainScreen"),
+          _UiBloc.button1(context, "LOGIN", "/MainScreen"),
           
-          _loginUiBloc.line1(context, "OR CONNECT WITH"),
+          _UiBloc.line1(context, "OR CONNECT WITH"),
           
 
-          _loginUiBloc.kakaoLoginButton(context, 20.0),
-          _loginUiBloc.facebookLoginButton(context, 0.0),
+          _UiBloc.kakaoLoginButton(context, 20.0),
+          _UiBloc.facebookLoginButton(context, 0.0),
           
 
           

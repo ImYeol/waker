@@ -32,7 +32,7 @@ class MyApp extends StatelessWidget {
         title: Constants.appName,
         theme: isDark ? Constants.darkTheme : Constants.lightTheme,
         // home: MainScreen(),
-        home: LoginMainPage(),
+        home: TimerPage(),
       )
     );
   }

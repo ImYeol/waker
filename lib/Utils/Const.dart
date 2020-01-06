@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_study_app/Models/LoginUser.dart';
 class Constants{
 
   static String appName = "Study App";
@@ -48,6 +49,4 @@ class Constants{
       ),
     ),
   );
-
-
 }

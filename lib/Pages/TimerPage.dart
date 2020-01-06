@@ -1,17 +1,23 @@
-import 'package:flutter/material.dart';
-import 'dart:async';
+import 'dart:io';
 
+import 'package:flutter/material.dart';
+import 'package:flutter_study_app/restapi/StopWatchRestapi.dart';
+import 'dart:async';
+import 'package:http/http.dart' as http;
+import 'package:flutter_study_app/Models/Account.dart' as account;
 import 'package:rflutter_alert/rflutter_alert.dart';
 
 class ElapsedTime {
   final int hundreds;
   final int seconds;
   final int minutes;
+  final int hours;
 
   ElapsedTime({
     this.hundreds,
     this.seconds,
     this.minutes,
+    this.hours,
   });
 }
 
@@ -31,10 +37,13 @@ class TimerPage extends StatefulWidget {
 
 class TimerPageState extends State<TimerPage> {
   final Dependencies dependencies = new Dependencies();
+  final StopWatchRestapi stopWatchRestapi = new StopWatchRestapi();
+
   int milliseconds;
   int hundreds;
   int seconds; 
   int minutes; 
+  int hours;
 
   void leftButtonPressed() {
     setState(() {
@@ -83,18 +92,24 @@ class TimerPageState extends State<TimerPage> {
             hundreds = (milliseconds / 10).truncate();
             seconds = (hundreds / 100).truncate();
             minutes = (seconds / 60).truncate();
+            hours = (minutes / 60).truncate();
             Alert(
               context: context,
               type: AlertType.success,
               title: "Study Time",
-              desc: "Today Current Time : ${minutes} : ${seconds} : ${hundreds}",
+              desc: "Today Current Time : ${hours} : ${minutes} : ${seconds}",
               buttons: [
                 DialogButton(
                   child: Text(
                     "Save",
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
-                  onPressed: () => Navigator.pop(context),
+                  onPressed: () => stopWatchRestapi.studyTimeUpdate(hours, minutes, seconds).then((timerState) async{
+                    Navigator.popAndPushNamed(context, '/TimerPage');
+                    switch(timerState){
+                      case HttpStatus.ok:
+                    }
+                  }),
                   width: 120,
                 ),
                 DialogButton(
@@ -118,7 +133,6 @@ class TimerPageState extends State<TimerPage> {
   @override
   Widget build(BuildContext context) {
     return new Scaffold(
-      
       body: new Container(
         child: new Column(
           crossAxisAlignment: CrossAxisAlignment.center,

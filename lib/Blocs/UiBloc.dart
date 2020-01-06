@@ -5,7 +5,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_study_app/Auth/FacebookAuth.dart';
 import 'package:flutter_study_app/Auth/KakaoAuth.dart';
 import 'package:flutter_study_app/Blocs/Bloc.dart';
+import 'package:flutter_study_app/Models/Account.dart' as account;
 import 'package:flutter_study_app/Utils/AuthConfig.dart';
+import 'package:flutter_study_app/Utils/Const.dart';
 import 'package:flutter_study_app/restapi/FacebookLoginRestapi.dart';
 import 'package:flutter_study_app/restapi/KakaoLoginRestapi.dart';
 import 'package:flutter_progress_button/flutter_progress_button.dart';
@@ -230,7 +232,7 @@ class UiBloc extends Bloc{
                                   accesstoken = mkakaoauth.GetAccessToken();
 
                                   loginHttpState = await mkakaologinrestapi.KakaoLoginPost(accountid, accountemail, accesstoken);
-                                  
+                                  account.loginUser.SetInfo(accountid, accountemail, accesstoken);
 
                                   if(loginHttpState != HttpStatus.ok){
                                     break;

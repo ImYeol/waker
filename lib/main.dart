@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_study_app/Blocs/AppBloc.dart';
+import 'package:flutter_study_app/Login/Login.dart';
 import 'package:flutter_study_app/Login/LoginMainPage.dart';
 import 'package:flutter_study_app/Pages/Board.dart';
 import 'package:flutter_study_app/Pages/Feed.dart';
@@ -32,7 +33,7 @@ class MyApp extends StatelessWidget {
         title: Constants.appName,
         theme: isDark ? Constants.darkTheme : Constants.lightTheme,
         // home: MainScreen(),
-        home: TimerPage(),
+        home: LoginMainPage(),
       )
     );
   }

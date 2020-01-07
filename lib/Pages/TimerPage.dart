@@ -93,36 +93,77 @@ class TimerPageState extends State<TimerPage> {
             seconds = (hundreds / 100).truncate();
             minutes = (seconds / 60).truncate();
             hours = (minutes / 60).truncate();
-            Alert(
+            // Alert(
+            //   context: context,
+            //   type: AlertType.success,
+            //   title: "Study Time",
+            //   desc: "Today Current Time : ${hours} : ${minutes} : ${seconds}",
+            //   buttons: [
+            //     DialogButton(
+            //       child: Text(
+            //         "Save",
+            //         style: TextStyle(color: Colors.white, fontSize: 20),
+            //       ),
+            //       onPressed: (){
+            //         stopWatchRestapi.studyTimeUpdate(hours, minutes, seconds).then((timerState) async{
+            //           // Navigator.pushNamed(context, '/TimerPage');
+            //           // Navigator.popAndPushNamed(context, '/Login');
+            //           switch(timerState){
+            //             case HttpStatus.ok:
+            //               break;
+            //             default:
+            //               break;
+            //           }
+            //         });
+            //       },
+            //       width: 120,
+            //     ),
+            //     DialogButton(
+            //       color: Colors.red,
+            //       child: Text(
+            //         "Cancel",
+            //         style: TextStyle(color: Colors.white, fontSize: 20),
+            //       ),
+            //       onPressed: () => Navigator.pop(context),
+            //       width: 120,
+            //     )
+            //   ],
+            // ).show();
+            showDialog(
               context: context,
-              type: AlertType.success,
-              title: "Study Time",
-              desc: "Today Current Time : ${hours} : ${minutes} : ${seconds}",
-              buttons: [
-                DialogButton(
-                  child: Text(
-                    "Save",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                  onPressed: () => stopWatchRestapi.studyTimeUpdate(hours, minutes, seconds).then((timerState) async{
-                    Navigator.popAndPushNamed(context, '/TimerPage');
-                    switch(timerState){
-                      case HttpStatus.ok:
-                    }
-                  }),
-                  width: 120,
-                ),
-                DialogButton(
-                  color: Colors.red,
-                  child: Text(
-                    "Cancel",
-                    style: TextStyle(color: Colors.white, fontSize: 20),
-                  ),
-                  onPressed: () => Navigator.pop(context),
-                  width: 120,
-                )
-              ],
-            ).show();
+              builder: (BuildContext context){
+                return AlertDialog(
+                  title: new Text("ALERT"),
+                  content: new Text("Save study time?"),
+                  actions: <Widget>[
+                    new FlatButton(
+                      child: new Text("Save"),
+                      onPressed: () {
+                        stopWatchRestapi.studyTimeUpdate(hours, minutes, seconds).then((timerState) async {
+                          switch(timerState){
+                            case HttpStatus.ok:
+                              break;
+                            case HttpStatus.badRequest:
+                              debugPrint("[FAIL] study_time_update error");
+                              break;
+                            default:
+                              debugPrint("[FAIL] study_time_update error");
+                              break;
+                          }
+                          Navigator.of(context).pop();
+                        });
+                      },
+                    ),
+                    new FlatButton(
+                      child: new Text("cancel"),
+                      onPressed: () {
+                          Navigator.of(context).pop();
+                      },
+                    )
+                  ],
+                );
+              },
+            );
           }
           dependencies.stopwatch.isRunning ? dependencies.stopwatch.stop() : dependencies.stopwatch.start();
         });
